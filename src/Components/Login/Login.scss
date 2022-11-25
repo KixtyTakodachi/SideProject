@@ -1,0 +1,48 @@
+.login_bg{
+  background: linear-gradient(to bottom,#101215,#21262e 74%,#2e333c);
+  height: 100vh;
+  position: relative;
+}
+.login_form{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  left: 50%;
+  width: 600px;
+  height: 400px;
+  background: white;
+  border-radius: 4px;
+}
+
+.login_title{
+  text-align: center;
+  font-size: 40px;
+}
+
+.form_input{
+  width: 300px;
+}
+
+.form{
+  width: 300px;
+  margin: 15px auto 0px auto;
+}
+
+.form_button{
+  display: block;
+  margin: 0 auto;
+}
+
+.login_error{
+  background: #cf6662;
+  color: white;
+  padding: 15px;
+  width: 400px;
+  margin: 0 auto;
+  border-radius: 8px;
+  display: none;
+}
+
+.active{
+  display: block;
+}
