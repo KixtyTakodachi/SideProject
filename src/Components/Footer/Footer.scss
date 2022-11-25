@@ -1,0 +1,26 @@
+.footer{
+  height: 56px;
+  background: #323a44;
+  margin-top: auto;
+}
+
+.footer_wrapper{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.footer_support{
+  font-size: 14px;
+  color: #b6b6b6;
+  transition: 0.3s all;
+  cursor: pointer;
+  &:hover{
+    color: white;
+  }
+}
+
+.footer_copyright{
+  color: #b6b6b6;
+  font-size: 14px;
+}

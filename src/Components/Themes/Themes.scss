@@ -1,3 +1,9 @@
+.themes{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .themes_header{
   display: flex;
   align-items: center;

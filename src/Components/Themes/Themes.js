@@ -4,6 +4,7 @@ import {useStore} from "../../store/store";
 import {Select, Button, Table} from "antd";
 import { EditOutlined, PauseOutlined, DeleteOutlined} from '@ant-design/icons'
 import './Themes.scss'
+import Footer from "../Footer/Footer";
 
 export default function Themes(){
 
@@ -43,7 +44,6 @@ export default function Themes(){
             date_from: '2022-01-05',
             group_type: 'commercial'
         },
-
     ]
 
     const language = useStore(state => state.language)
