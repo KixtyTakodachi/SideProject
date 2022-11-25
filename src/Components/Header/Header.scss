@@ -64,12 +64,14 @@
   padding: 10px 0px;
   border: 1px solid #b6b6b6;
   transition: 0.2s all;
+  z-index: 1;
 }
 
 .header_user_menu_item{
   padding: 10px 10px;
   cursor: pointer;
   transition: 0.3s all;
+  font-size: 14px;
   &:hover{
     background: #00d3ff42;
   }
@@ -83,14 +85,13 @@
 
 .header_user_login{
   margin-left: 10px;
+  color: white;
+  font-size: 14px;
 }
 
 .header_user_name{
   margin-left: 10px;
-}
-
-.header_user_login{
-  color: white;
+  font-size: 16px;
 }
 
 .header_user_menu_button{
@@ -129,6 +130,7 @@
   color: white;
   margin: 0px 5px;
   padding: 1px 4px;
+  font-size: 14px;
 }
 
 .language_active{
@@ -151,6 +153,7 @@
   padding: 0px 10px;
   transition: 0.3s all;
   cursor: pointer;
+  font-size: 14px;
   &:hover{
     background: #617083;
   }
