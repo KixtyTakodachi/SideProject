@@ -1,4 +1,161 @@
 .header{
   background: #323a44;
-  height: 60px;
+}
+
+.header_wrapper{
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_logo{
+  width: 40px;
+}
+
+.header_logo_wrapper{
+  display: flex;
+  align-items: center;
+}
+
+.header_logo_title{
+  color: white;
+  margin-left: 10px;
+}
+
+.header_menu{
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  height: 100%;
+  list-style: none;
+  color: white;
+}
+
+.header_user_img_wrapper{
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 100%;
+  position: relative;
+}
+
+.header_user_img{
+  width: 20px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}
+
+.header_user_menu{
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  right: 0px;
+  bottom: -160px;
+  border-radius: 8px;
+  list-style: none;
+  background: white;
+  padding: 10px 0px;
+  border: 1px solid #b6b6b6;
+  transition: 0.2s all;
+}
+
+.header_user_menu_item{
+  padding: 10px 10px;
+  cursor: pointer;
+  transition: 0.3s all;
+  &:hover{
+    background: #00d3ff42;
+  }
+}
+
+.header_user_wrapper{
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.header_user_login{
+  margin-left: 10px;
+}
+
+.header_user_name{
+  margin-left: 10px;
+}
+
+.header_user_login{
+  color: white;
+}
+
+.header_user_menu_button{
+  cursor: pointer;
+  width: 20px;
+  height: 30px;
+  position: relative;
+  &:before{
+    content: '';
+    width: 8px;
+    height: 1px;
+    background: white;
+    position: absolute;
+    right: 6px;
+    top: 15px;
+    transform: rotate(45deg);
+  }
+  &:after{
+    content: '';
+    width: 8px;
+    height: 1px;
+    background: white;
+    position: absolute;
+    right: 0px;
+    top: 15px;
+    transform: rotate(-45deg)
+  }
+}
+
+.header_language{
+  display: flex;
+  color: white;
+}
+
+.header_language_item{
+  color: white;
+  margin: 0px 5px;
+  padding: 1px 4px;
+}
+
+.language_active{
+  background: #617083;
+}
+
+.divider{
+  height: 1px;
+  background: #b6b6b6;
+  margin: 10px;
+}
+
+.active{
+  opacity: 1;
+  pointer-events: unset;
+}
+
+.header_menu_item{
+  line-height: 50px;
+  padding: 0px 10px;
+  transition: 0.3s all;
+  cursor: pointer;
+  &:hover{
+    background: #617083;
+  }
+}
+
+.active_menu_item{
+  background: #617083;
 }

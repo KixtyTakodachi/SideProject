@@ -14,7 +14,7 @@ export default function Login(){
     ]
 
     const submitForm = (values) => {
-        const user = usersList.find(item => item.login == values.login)
+        const user = usersList.find(item => item.login === values.login)
         if(!user || user.password !== values.password){
             setIsError(true)
         } else {
