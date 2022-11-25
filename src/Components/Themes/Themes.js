@@ -7,11 +7,11 @@ export default function Themes(){
     const language = useStore(state => state.language)
 
     return (
-        <div>
+        <div >
             <Header/>
-            {
-                'current_language: ' + language
-            }
+            <div>
+                test
+            </div>
         </div>
     )
 }

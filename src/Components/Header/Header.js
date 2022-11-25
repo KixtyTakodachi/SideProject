@@ -25,7 +25,7 @@ export default function Header(){
     }
 
     return(
-        <div className='header'>
+        <div className='header' onClick={isMenuOpen ? () => setIsMenuOpen(false) : () => {}}>
             <div className='container'>
                 <div className='header_wrapper'>
                     <div className='header_logo_wrapper'>
@@ -77,6 +77,7 @@ export default function Header(){
                     </div>
                 </div>
             </div>
+            <div className={['header_overlay', isMenuOpen ? 'overlay_active' : ''].join(' ')} onClick={() => setIsMenuOpen(false)}></div>
         </div>
     )
 }
