@@ -2,6 +2,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Themes from "./Components/Themes/Themes";
 import ThemeItem from "./Components/ThemeItem/ThemeItem";
+import './App.css'
 
 function App() {
   return (
