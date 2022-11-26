@@ -243,3 +243,48 @@
     }
   }
 }
+
+.themeItem_content_chart{
+  background: white;
+  padding: 20px;
+}
+
+.chart_tooltip{
+  background: #323a44;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.chart_tooltip_text{
+  color: white;
+  font-size: 14px;
+}
+
+.themeItem_content_chart_lagends_wrapper{
+  display: flex;
+  justify-content: center;
+}
+
+.themeItem_content_chart_lagends_item{
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  margin: 0px 5px;
+  color: rgb(76, 81, 92);
+  cursor: pointer;
+  transition: 0.2s all;
+  &:hover{
+    color: black;
+  }
+}
+
+.round{
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin-right: 5px;
+}
+
+.legend_off{
+  color: rgb(204, 204, 204)
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer"
 import {useStore} from "../../store/store";
@@ -42,7 +42,7 @@ import vk from '../../img/vk.png'
 import ok from '../../img/ok.png'
 import dzen from '../../img/dzen.png'
 import comment_img from '../../img/comment_img.png'
-
+import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip} from 'recharts'
 import "./ThemeItem.scss"
 
 const { RangePicker } = DatePicker
@@ -121,6 +121,31 @@ export default function ThemeItem(){
     const [currentDateRange, setCurrentDateRange] = useState([dayjs(new Date()), dayjs(new Date()).add(1, 'month')])
 
     const [content_comments, setContentComments] = useState(comments_source)
+
+    const [chartData, setChartData] = useState([])
+
+    const [legendsFilter, setLegendsFilter] = useState([])
+
+    useEffect(() => {
+        const start_date = dayjs(currentDateRange[0]).format('YYYY-MM-DD')
+        const end_date = dayjs(currentDateRange[1]).format('YYYY-MM-DD')
+        let dates = []
+        let date = start_date
+        while(date <= end_date){
+            dates.push(date)
+            date = dayjs(date).add(1, 'day').format('YYYY-MM-DD')
+        }
+        setChartData(
+            dates.map(item => {
+                return {
+                    date: item,
+                    mentions: Math.round(Math.random() * 10),
+                    negative: Math.round(Math.random() * 10),
+                    positive: Math.round(Math.random() * 10)
+                }
+            })
+        )
+    },[currentDateRange])
 
     const language = useStore(state => state.language)
 
@@ -232,6 +257,14 @@ export default function ThemeItem(){
         console.log(`actionClick action - ${action} from id - ${id}`)
     }
 
+    const filterChart = (type) => {
+        if(!legendsFilter.includes(type)){
+            setLegendsFilter([...legendsFilter, type])
+        } else {
+            setLegendsFilter(legendsFilter.filter(item => item !== type))
+        }
+    }
+
     return (
         <div className='themeItem'>
             <Header/>
@@ -274,6 +307,64 @@ export default function ThemeItem(){
                                 left_bar_menu.find(item => item.id === activeTab).name
                             }
                         </h1>
+                        <div className='themeItem_content_chart'>
+                            <LineChart width={1024} height={200} data={chartData}>
+                                {
+                                    !legendsFilter.includes('positive') ?
+                                        <Line type={'monotone'} dataKey={'positive'} stroke={'#8fc144'}/>
+                                    :
+                                        ''
+                                }
+                                {
+                                    !legendsFilter.includes('mentions') ?
+                                        <Line type={'monotone'} dataKey={'mentions'} stroke={'#4779d0'}/>
+                                    :
+                                        ''
+                                }
+                                {
+                                    !legendsFilter.includes('negative') ?
+                                        <Line type={'monotone'} dataKey={'negative'} stroke={'#cf6662'}/>
+                                    :
+                                        ''
+                                }
+                                <CartesianGrid stroke={'#b6b6b6'}/>
+                                <XAxis dataKey={'date'}/>
+                                <YAxis />
+                                <Tooltip content={<CustomChartToolTip />}/>
+                            </LineChart>
+                            <div className='themeItem_content_chart_lagends_wrapper'>
+                                <div
+                                    className={[
+                                        'themeItem_content_chart_lagends_item',
+                                        legendsFilter.includes('positive') ?
+                                            'legend_off' : ''
+                                    ].join(' ')}
+                                    onClick={() => filterChart('positive')}>
+                                    <div className='round' style={{background:'#8fc144'}}></div>
+                                    Количество упоминаний
+                                </div>
+                                <div
+                                    className={[
+                                        'themeItem_content_chart_lagends_item',
+                                        legendsFilter.includes('mentions') ?
+                                            'legend_off' : ''
+                                    ].join(' ')}
+                                    onClick={() => filterChart('mentions')}>
+                                    <div className='round' style={{background:'#4779d0'}}></div>
+                                    Позитив
+                                </div>
+                                <div
+                                    className={[
+                                        'themeItem_content_chart_lagends_item',
+                                        legendsFilter.includes('negative') ?
+                                            'legend_off' : ''
+                                    ].join(' ')}
+                                    onClick={() => filterChart('negative')}>
+                                    <div className='round' style={{background:'#cf6662'}}></div>
+                                    Негатив
+                                </div>
+                            </div>
+                        </div>
                         <div className='themeItem_content_comments_wrapper'>
                             {
                                 content_comments.map(item => {
@@ -451,4 +542,22 @@ function CommentComponent(props){
             </div>
         </div>
     )
+}
+
+function CustomChartToolTip({active, payload, label}){
+    if(active && payload && payload.length > 0){
+        const tooltip_dict = {
+            negative: 'Негатив',
+            positive: 'Позитив',
+            mentions: 'Кошличество упоминаний',
+        }
+        return (
+            <div className='chart_tooltip'>
+                <div className='chart_tooltip_text'>Дата:{' ' + label}</div>
+                <div className='chart_tooltip_text'>{tooltip_dict[payload[1].name] + ': ' + payload[1].value}</div>
+                <div className='chart_tooltip_text'>{tooltip_dict[payload[0].name] + ': ' + payload[0].value}</div>
+                <div className='chart_tooltip_text'>{tooltip_dict[payload[2].name] + ': ' + payload[2].value}</div>
+            </div>
+        )
+    }
 }
