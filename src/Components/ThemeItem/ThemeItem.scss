@@ -225,3 +225,21 @@
     text-decoration: underline;
   }
 }
+
+.themeItem_comment_audience{
+  font-size: 10px;
+  background: #f6f6f7;
+  line-height: 10px;
+  border-radius: 8px;
+  padding: 3px;
+  margin-left: 5px;
+  position: relative;
+  &:hover{
+    .action_button_tooltip{
+      opacity: 1;
+      &:before{
+        opacity: 1;
+      }
+    }
+  }
+}

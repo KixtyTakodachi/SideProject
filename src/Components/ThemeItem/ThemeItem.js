@@ -49,9 +49,78 @@ const { RangePicker } = DatePicker
 
 export default function ThemeItem(){
 
+    let comments_source = [
+        {
+            id: 0,
+            name: 'Test test 1',
+            avatar: comment_avatar,
+            author_audience: 100,
+            public_source: 'Test public 1',
+            public_source_link: '#',
+            public_audience: 10000,
+            social_media: 'facebook.com',
+            link: 'https://facebook.com',
+            message_type: 'Пост',
+            date: '01.05.2022',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
+            picture: comment_img,
+            favourite: false,
+        },
+        {
+            id: 1,
+            name: 'Test test 2',
+            avatar: comment_avatar,
+            author_audience: 200,
+            public_source: 'Test public 2',
+            public_source_link: '#',
+            public_audience: 20000,
+            social_media: 'ok.ru',
+            link: 'https://ok.ru',
+            message_type: 'Коммент',
+            date: '02.05.2022',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
+            picture: comment_img,
+            favourite: true,
+        },
+        {
+            id: 2,
+            name: 'Test test 3',
+            avatar: comment_avatar,
+            author_audience: 0,
+            public_source: '',
+            public_source_link: '',
+            public_audience: 0,
+            social_media: 'vk.com',
+            link: 'https://vk.com',
+            message_type: 'Пост',
+            date: '03.05.2022',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
+            picture: comment_img,
+            favourite: true,
+        },
+        {
+            id: 3,
+            name: 'Test test 4',
+            avatar: comment_avatar,
+            author_audience: 400,
+            public_source: '',
+            public_source_link: '',
+            public_audience: 0,
+            social_media: 'dzen.com',
+            link: 'https://dzen.com/',
+            message_type: 'Пост',
+            date: '04.05.2022',
+            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
+            picture: comment_img,
+            favourite: false,
+        },
+    ]
+
     const [activeTab, setActiveTab] = useState(0)
 
     const [currentDateRange, setCurrentDateRange] = useState([dayjs(new Date()), dayjs(new Date()).add(1, 'month')])
+
+    const [content_comments, setContentComments] = useState(comments_source)
 
     const language = useStore(state => state.language)
 
@@ -127,69 +196,6 @@ export default function ThemeItem(){
         },
     ]
 
-    const content_comments = [
-        {
-            id: 0,
-            name: 'Test test 1',
-            avatar: comment_avatar,
-            author_audience: 100,
-            public_source: 'Test public 1',
-            public_audience: 10000,
-            social_media: 'facebook.com',
-            link: 'https://facebook.com',
-            message_type: 'Пост',
-            date: '01.05.2022',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
-            picture: comment_img,
-            favourite: false,
-        },
-        {
-            id: 1,
-            name: 'Test test 2',
-            avatar: comment_avatar,
-            author_audience: 200,
-            public_source: 'Test public 2',
-            public_audience: 20000,
-            social_media: 'ok.ru',
-            link: 'https://ok.ru',
-            message_type: 'Коммент',
-            date: '02.05.2022',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
-            picture: comment_img,
-            favourite: true,
-        },
-        {
-            id: 2,
-            name: 'Test test 3',
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Пост',
-            date: '03.05.2022',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
-            picture: comment_img,
-            favourite: true,
-        },
-        {
-            id: 3,
-            name: 'Test test 4',
-            avatar: comment_avatar,
-            author_audience: 400,
-            public_source: '',
-            public_audience: 0,
-            social_media: 'dzen.com',
-            link: 'https://dzen.com/',
-            message_type: 'Пост',
-            date: '04.05.2022',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
-            picture: comment_img,
-            favourite: false,
-        },
-    ]
-
     const onSelectChange = (value) => {
         console.log('selected value', value)
     }
@@ -207,8 +213,19 @@ export default function ThemeItem(){
         console.log(`onCommentSelect id - ${e.target['data-id']} checked - ${e.target.checked}`)
     }
 
-    const toggleFavourite = () => {
-
+    const toggleFavourite = (id) => {
+        setContentComments(
+            content_comments.map(item => {
+                if(item.id === id){
+                    return {
+                        ...item,
+                        favourite: !item.favourite
+                    }
+                } else {
+                    return item
+                }
+            })
+        )
     }
 
     const actionClick = (action, id) => {
@@ -265,6 +282,7 @@ export default function ThemeItem(){
                                         avatar={item.avatar}
                                         author_audience={item.author_audience}
                                         public_source={item.public_source}
+                                        public_source_link={item.public_source_link}
                                         public_audience={item.public_audience}
                                         social_media={item.social_media}
                                         link={item.link}
@@ -304,6 +322,7 @@ function CommentComponent(props){
         avatar,
         author_audience,
         public_source,
+        public_source_link,
         public_audience,
         social_media,
         message_type,
@@ -332,15 +351,54 @@ function CommentComponent(props){
                 <div className='themeItem_comment_user'>
                     <img src={avatar} alt={'avatar'} style={{borderRadius: '100%', marginRight: '10px', height: '35px'}}/>
                     <div className='themeItem_comment_user_info'>
-                        <div style={{marginBottom: '5px'}}>
+                        <div style={{marginBottom: '5px', display: 'flex', alignItems:'center'}}>
                             {
                                 favourite ?
-                                    <StarFilled style={{color: 'yellow', marginRight: '5px'}}/>
+                                    <StarFilled style={{color: 'gold', marginRight: '5px'}} onClick={() => toggleFavourite(id)}/>
                                     :
-                                    <StarOutlined style={{ marginRight: '5px'}}/>
+                                    <StarOutlined style={{ marginRight: '5px'}} onClick={() => toggleFavourite(id)}/>
                             }
                             {
-                                name
+                                <div style={{fontSize: '14px'}}>{name}</div>
+                            }
+                            {
+                                author_audience > 0 ?
+                                    <div className='themeItem_comment_audience'>
+                                        <TeamOutlined />
+                                        {
+                                            author_audience
+                                        }
+                                        <div className='action_button_tooltip'>
+                                            Аудитория автора
+                                        </div>
+                                    </div>
+                                :
+                                    ''
+                            }
+                            {
+                                public_source.length > 0 ?
+                                    <>
+                                        <div style={{fontSize: '14px'}}>
+                                            в
+                                            <a style={{color:'#4870b7', textDecoration:'none', fontSize:'14px'}} href={public_source_link}>{' '+public_source}</a>
+                                        </div>
+                                        {
+                                            public_audience > 0 ?
+                                                <div className='themeItem_comment_audience'>
+                                                    <TeamOutlined />
+                                                    {
+                                                        public_audience
+                                                    }
+                                                    <div className='action_button_tooltip'>
+                                                        Аудитория сообщения
+                                                    </div>
+                                                </div>
+                                                :
+                                                ''
+                                        }
+                                    </>
+                                :
+                                    ''
                             }
                         </div>
                         <div style={{display: 'flex', alignItems: 'center'}}>
