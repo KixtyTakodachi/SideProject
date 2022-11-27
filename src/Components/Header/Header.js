@@ -36,13 +36,13 @@ export default function Header(){
                     </div>
                     <ul className='header_menu'>
                         <li className={['header_menu_item', page === 'themes' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('themes')}>
-                            {language === 'Ru' ? 'Темы' : 'Тақырыптар' }
+                            {language === 'Ru' ? 'Темы' : 'Темалар' }
                         </li>
                         <li className={['header_menu_item', page === 'settings' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('settings')}>
                             {language === 'Ru' ? 'Настройки' : 'Параметрлер' }
                         </li>
                         <li className={['header_menu_item', page === 'help' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('help')}>
-                            {language === 'Ru' ? 'Помощь' : 'Көмектесіңдер' }
+                            {language === 'Ru' ? 'Помощь' : 'Көмек' }
                         </li>
                     </ul>
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>

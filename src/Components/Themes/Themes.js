@@ -48,19 +48,19 @@ export default function Themes(){
                                 language === 'Ru' ?
                                     'Социальные медиа и онлайн-СМИ'
                                     :
-                                    'Әлеуметтік медиа және желілік медиа'
+                                    'Әлеуметтік желілер және онлайн СМИ'
                                 :
                                 language === 'Ru' ?
                                     'Онлайн-СМИ, пресса, ТВ, радио'
                                     :
-                                    'Онлайн БАҚ, баспасөз, теледидар, радио'
+                                    'Онлайн, СМИ, баспасөз, телевидение, радио'
                         }
                     </div>
                 </div>
             )
         },
         {
-            title: language === 'Ru' ? 'Название' : 'Аты',
+            title: language === 'Ru' ? 'Название' : 'Атауы',
             key: 'name',
             render: (_, record) => (
                 <div>
@@ -68,13 +68,13 @@ export default function Themes(){
                     <div>{language === 'Ru' ?
                         'Данные собираются с ' + record.date_from
                         :
-                        'Деректер ' + record.date_from + ' бастап жиналады'
+                        'Деректер ' + record.date_from + '-ден жиналады'
                     }</div>
                 </div>
             )
         },
         {
-            title: language === 'Ru' ? 'Действия' : 'Әрекеттер',
+            title: language === 'Ru' ? 'Действия' : 'Іс-әрекеттер',
             key: 'action',
             render: (_, record) => (
                 <div className='themes_table_button_wrapper'>
@@ -96,7 +96,7 @@ export default function Themes(){
                                 language === 'Ru' ?
                                     'Остановить'
                                     :
-                                    'Тоқта'
+                                    'Тоқтау'
                             }
                         </div>
                     </Button>
@@ -147,7 +147,7 @@ export default function Themes(){
             <Header/>
             <div className='container'>
                 <div className='themes_header'>
-                    <h1 className='themes_header_title'>{language === 'Ru' ? 'Темы' : 'Тақырыптар'}</h1>
+                    <h1 className='themes_header_title'>{language === 'Ru' ? 'Темы' : 'Темалар'}</h1>
                     <Select
                         className='themes_select'
                         defaultValue={'all'}
@@ -159,7 +159,7 @@ export default function Themes(){
                             language === 'Ru' ?
                                 'Добавить новую тему'
                             :
-                                'Жаңа тақырып қосыңыз'
+                                'Жаңа тема қосу'
                         }
                     </Button>
                 </div>

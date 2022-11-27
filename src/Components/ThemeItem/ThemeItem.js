@@ -49,6 +49,8 @@ const { RangePicker } = DatePicker
 
 export default function ThemeItem(){
 
+    const language = useStore(state => state.language)
+
     let comments_source = [
         {
             id: 0,
@@ -60,7 +62,7 @@ export default function ThemeItem(){
             public_audience: 10000,
             social_media: 'facebook.com',
             link: 'https://facebook.com',
-            message_type: 'Пост',
+            message_type: 'Пост' ,
             date: '01.05.2022',
             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
             picture: comment_img,
@@ -76,7 +78,7 @@ export default function ThemeItem(){
             public_audience: 20000,
             social_media: 'ok.ru',
             link: 'https://ok.ru',
-            message_type: 'Коммент',
+            message_type: language === 'Ru' ? 'Коммент' : 'Пікір',
             date: '02.05.2022',
             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
             picture: comment_img,
@@ -92,7 +94,7 @@ export default function ThemeItem(){
             public_audience: 0,
             social_media: 'vk.com',
             link: 'https://vk.com',
-            message_type: 'Пост',
+            message_type: 'Пост' ,
             date: '03.05.2022',
             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
             picture: comment_img,
@@ -108,7 +110,7 @@ export default function ThemeItem(){
             public_audience: 0,
             social_media: 'dzen.com',
             link: 'https://dzen.com/',
-            message_type: 'Пост',
+            message_type: 'Пост' ,
             date: '04.05.2022',
             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
             picture: comment_img,
@@ -147,8 +149,6 @@ export default function ThemeItem(){
         )
     },[currentDateRange])
 
-    const language = useStore(state => state.language)
-
     const dataSource = useStore(state => state.dataSource)
 
     const select_options = dataSource.map(item => {
@@ -161,7 +161,7 @@ export default function ThemeItem(){
     const left_bar_menu = [
         {
             id: 0,
-            name: language === 'Ru' ? 'Сводный отчет' : 'Шоғырландырылған есеп',
+            name: language === 'Ru' ? 'Сводный отчет' : 'Жиынтық есеп',
             icon: <AppstoreOutlined style={{marginRight:'10px'}}/>,
         },
         {
@@ -176,7 +176,7 @@ export default function ThemeItem(){
         },
         {
             id: 3,
-            name: language === 'Ru' ? 'Сообщества' : 'Қауымдастықтар',
+            name: language === 'Ru' ? 'Сообщества' : 'Қоғамдықтар',
             icon: <TeamOutlined style={{marginRight:'10px'}}/>,
         },
         {
@@ -186,7 +186,7 @@ export default function ThemeItem(){
         },
         {
             id: 5,
-            name: language === 'Ru' ? 'Теги' : 'Тегтер',
+            name: language === 'Ru' ? 'Теги' : 'Белгілемелер',
             icon: <TagOutlined style={{marginRight:'10px'}}/>,
         },
         {
@@ -201,12 +201,12 @@ export default function ThemeItem(){
         },
         {
             id: 8,
-            name: language === 'Ru' ? 'Персоны' : 'Тұлғалар',
+            name: language === 'Ru' ? 'Персоны' : 'Персоналар',
             icon: <UserOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 9,
-            name: language === 'Ru' ? 'Юрлица' : 'Заңды тұлға',
+            name: language === 'Ru' ? 'Юрлица' : 'Заңды тұлғалар',
             icon: <AuditOutlined style={{marginRight:'10px'}}/>,
         },
         {
@@ -272,7 +272,7 @@ export default function ThemeItem(){
                 <div className='themeItem_wrapper'>
                     <div className='themeItem_left_bar'>
                         <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px'}}>
-                            <h1 className='themeItem_left_bar_title'>{language === 'Ru' ? 'Темы' : 'Тақырыптар'}</h1>
+                            <h1 className='themeItem_left_bar_title'>{language === 'Ru' ? 'Темы' : 'Темалар'}</h1>
                             <div className='themeItem_left_bar_button'>
                                 <PlusSquareOutlined />
                             </div>
@@ -341,7 +341,12 @@ export default function ThemeItem(){
                                     ].join(' ')}
                                     onClick={() => filterChart('positive')}>
                                     <div className='round' style={{background:'#8fc144'}}></div>
-                                    Количество упоминаний
+                                    {
+                                        language === 'Ru' ?
+                                            'Количество упоминаний'
+                                        :
+                                            'Ескертулер саны'
+                                    }
                                 </div>
                                 <div
                                     className={[
@@ -408,6 +413,9 @@ export default function ThemeItem(){
 }
 
 function CommentComponent(props){
+
+    const language = useStore(state => state.language)
+
     const {
         name,
         avatar,
@@ -460,7 +468,12 @@ function CommentComponent(props){
                                             author_audience
                                         }
                                         <div className='action_button_tooltip'>
-                                            Аудитория автора
+                                            {
+                                                language === 'Ru' ?
+                                                    'Аудитория автора'
+                                                :
+                                                    'Автордың аудиториясы'
+                                            }
                                         </div>
                                     </div>
                                 :
@@ -470,7 +483,12 @@ function CommentComponent(props){
                                 public_source.length > 0 ?
                                     <>
                                         <div style={{fontSize: '14px'}}>
-                                            в
+                                            {
+                                                language === 'Ru' ?
+                                                    'в'
+                                                :
+                                                    'ішінде'
+                                            }
                                             <a style={{color:'#4870b7', textDecoration:'none', fontSize:'14px'}} href={public_source_link}>{' '+public_source}</a>
                                         </div>
                                         {
@@ -481,7 +499,12 @@ function CommentComponent(props){
                                                         public_audience
                                                     }
                                                     <div className='action_button_tooltip'>
-                                                        Аудитория сообщения
+                                                        {
+                                                            language === 'Ru' ?
+                                                                'Аудитория сообщения'
+                                                            :
+                                                                'Хабар аудиториясы'
+                                                        }
                                                     </div>
                                                 </div>
                                                 :
@@ -493,8 +516,8 @@ function CommentComponent(props){
                             }
                         </div>
                         <div style={{display: 'flex', alignItems: 'center'}}>
-                            <img src={social_media_img_dictionary[social_media.split('.')[0]]} style={{marginRight: '5px'}}/>
-                            <a style={{fontSize: '12px', textDecoration: 'none', color: '#4870b7', marginRight: '10px'}} href={link} target={"_blank"}>{social_media}</a>
+                            <img src={social_media_img_dictionary[social_media.split('.')[0]]} style={{marginRight: '5px'}} alt={'social_media'}/>
+                            <a style={{fontSize: '12px', textDecoration: 'none', color: '#4870b7', marginRight: '10px'}} href={link} target={"_blank"} rel='noreferrer'>{social_media}</a>
                             <div style={{color:'#b6b6b6', fontSize:'12px', marginRight: '10px'}}>{message_type}</div>
                             <div style={{fontSize: '12px'}}>{date}</div>
                         </div>
@@ -503,27 +526,69 @@ function CommentComponent(props){
                 <div className='themeItem_comment_actions'>
                     <div className='action_button' onClick={() => actionClick('worked', id)}>
                         <CheckOutlined/>
-                        <div className='action_button_tooltip'>Пометить как обработанное</div>
+                        <div className='action_button_tooltip'>
+                            {
+                                language === 'Ru' ?
+                                    'Пометить как обработанное'
+                                :
+                                    'Өңделген деп белгілеу'
+                            }
+                        </div>
                     </div>
                     <div className='action_button' onClick={() => actionClick('favourite', id)}>
                         <BookOutlined/>
-                        <div className='action_button_tooltip'>Добавить в избранное</div>
+                        <div className='action_button_tooltip'>
+                            {
+                                language === 'Ru' ?
+                                    'Добавить в избранное'
+                                :
+                                    'Таңдаулыларға қосу'
+                            }
+                        </div>
                     </div>
                     <div className='action_button' onClick={() => actionClick('neutral', id)}>
                         <MehFilled/>
-                        <div className='action_button_tooltip'>Нейтрально</div>
+                        <div className='action_button_tooltip'>
+                            {
+                                language === 'Ru' ?
+                                    'Нейтрально'
+                                :
+                                    'Бейтарап'
+                            }
+                        </div>
                     </div>
                     <div className='action_button_wrapper' onClick={() => actionClick('task', id)}>
                         <PushpinFilled />
-                        <div className='action_button_tooltip'>Создать поручение</div>
+                        <div className='action_button_tooltip'>
+                            {
+                                language === 'Ru' ?
+                                    'Создать поручение'
+                                :
+                                    'Тапсырма жасау'
+                            }
+                        </div>
                     </div>
                     <div className='action_button_wrapper' onClick={() => actionClick('share', id)}>
                         <ShareAltOutlined />
-                        <div className='action_button_tooltip'>Поделиться</div>
+                        <div className='action_button_tooltip'>
+                            {
+                                language === 'Ru' ?
+                                    'Поделиться'
+                                :
+                                    'Бөлісу'
+                            }
+                        </div>
                     </div>
                     <div className='action_button_wrapper delete_button' onClick={() => actionClick('delete', id)}>
                         <DeleteFilled />
-                        <div className='action_button_tooltip'>Удалить</div>
+                        <div className='action_button_tooltip'>
+                            {
+                                language === 'Ru' ?
+                                    'Удалить'
+                                :
+                                    'Жою'
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -534,26 +599,44 @@ function CommentComponent(props){
                             text
                         }
                     </div>
-                    <a href={link} style={{color: '#4870b7', textDecoration:'none', display: 'block', marginTop: '10px'}}>Показать польный текст ></a>
-                    <div className='themeItem_comment_body_bottom_text'> Редактировать разметку</div>
-                    <div className='themeItem_comment_body_bottom_text'><PlusOutlined /> Добавить теги</div>
+                    <a href={link} style={{color: '#4870b7', textDecoration:'none', display: 'block', marginTop: '10px'}}>{
+                        language === 'Ru' ?
+                            'Показать польный текст >'
+                        :
+                            'Толық текстті көрсету >'
+                    }</a>
+                    <div className='themeItem_comment_body_bottom_text'> {
+                        language === 'Ru' ?
+                            'Редактировать разметку'
+                        :
+                            'Белгілемені өңдеу'
+                    }</div>
+                    <div className='themeItem_comment_body_bottom_text'><PlusOutlined /> {
+                        language === 'Ru' ?
+                            'Добавить теги'
+                        :
+                            'Тегті қосу'
+                    }</div>
                 </div>
-                <img src={picture} className='themeItem_comment_picture'/>
+                <img src={picture} className='themeItem_comment_picture' alt='post_picture'/>
             </div>
         </div>
     )
 }
 
 function CustomChartToolTip({active, payload, label}){
+
+    const language = useStore(state => state.language)
+
     if(active && payload && payload.length > 0){
         const tooltip_dict = {
             negative: 'Негатив',
             positive: 'Позитив',
-            mentions: 'Кошличество упоминаний',
+            mentions: language === 'Ru' ? 'Количество упоминаний' : 'Ескертулер саны',
         }
         return (
             <div className='chart_tooltip'>
-                <div className='chart_tooltip_text'>Дата:{' ' + label}</div>
+                <div className='chart_tooltip_text'>{language === 'Ru' ? 'Дата: ' : 'Күні: ' + label}</div>
                 <div className='chart_tooltip_text'>{tooltip_dict[payload[1].name] + ': ' + payload[1].value}</div>
                 <div className='chart_tooltip_text'>{tooltip_dict[payload[0].name] + ': ' + payload[0].value}</div>
                 <div className='chart_tooltip_text'>{tooltip_dict[payload[2].name] + ': ' + payload[2].value}</div>
