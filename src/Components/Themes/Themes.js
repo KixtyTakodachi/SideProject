@@ -5,12 +5,15 @@ import {Select, Button, Table} from "antd";
 import { EditOutlined, PauseOutlined, DeleteOutlined} from '@ant-design/icons'
 import './Themes.scss'
 import Footer from "../Footer/Footer";
+import {Link} from "react-router-dom";
 
 export default function Themes(){
 
     const dataSource = useStore(state => state.dataSource)
 
     const language = useStore(state => state.language)
+
+    const changeActiveTheme = useStore(state => state.changeActiveTheme)
 
     const [tableData, setTableData] = useState(dataSource)
 
@@ -64,7 +67,9 @@ export default function Themes(){
             key: 'name',
             render: (_, record) => (
                 <div>
-                    <a>{record.name}</a>
+                    <Link to='/theme'>
+                        <div className='themes_table_name' onClick={() => chooseTheme(record.id)}>{record.name}</div>
+                    </Link>
                     <div>{language === 'Ru' ?
                         'Данные собираются с ' + record.date_from
                         :
@@ -142,6 +147,10 @@ export default function Themes(){
         }
     }
 
+    const chooseTheme = (id) => {
+        changeActiveTheme(id)
+    }
+
     return (
         <div className='themes'>
             <Header/>
@@ -167,5 +176,12 @@ export default function Themes(){
             </div>
             <Footer />
         </div>
+    )
+}
+
+function TableName(props){
+    const { id, name, chooseTheme } = props
+    return(
+        <div className='themes_table_name' onClick={() => chooseTheme(id)}>{name}</div>
     )
 }

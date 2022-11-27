@@ -4,6 +4,7 @@ import logo from '../../img/blank.svg'
 import avatar from '../../img/avatar.svg'
 import { SettingOutlined, ExportOutlined } from '@ant-design/icons';
 import {useStore} from "../../store/store";
+import {Link} from "react-router-dom";
 
 export default function Header(){
 
@@ -15,9 +16,9 @@ export default function Header(){
 
     const menuClick = (page) => {
         changeActivePage(page)
-        if(!window.location.href.includes(page)){
-            window.location.replace(window.location.origin + `/${page}`)
-        }
+        // if(!window.location.href.includes(page)){
+        //     window.location.replace(window.location.origin + `/${page}`)
+        // }
     }
 
     const profileMenuClick = (path) => {
@@ -35,9 +36,11 @@ export default function Header(){
                         </div>
                     </div>
                     <ul className='header_menu'>
-                        <li className={['header_menu_item', page === 'themes' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('themes')}>
-                            {language === 'Ru' ? 'Темы' : 'Темалар' }
-                        </li>
+                        <Link to='/themes' style={{textDecoration:'none'}}>
+                            <li className={['header_menu_item', page === 'themes' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('themes')}>
+                                {language === 'Ru' ? 'Темы' : 'Темалар' }
+                            </li>
+                        </Link>
                         <li className={['header_menu_item', page === 'settings' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('settings')}>
                             {language === 'Ru' ? 'Настройки' : 'Параметрлер' }
                         </li>

@@ -41,5 +41,7 @@ export const useStore = create((set) => ({
             date_from: '2022-01-05',
             group_type: 'commercial'
         },
-    ]
+    ],
+    active_theme: 1,
+    changeActiveTheme: (id) => set((state) => ({active_theme: id})),
 }))

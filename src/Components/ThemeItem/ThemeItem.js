@@ -151,9 +151,13 @@ export default function ThemeItem(){
 
     const dataSource = useStore(state => state.dataSource)
 
+    const active_theme = useStore(state => state.active_theme)
+
+    console.log('active_theme', active_theme)
+
     const select_options = dataSource.map(item => {
         return {
-            value: item.name,
+            value: item.id,
             label: item.name
         }
     })
@@ -279,6 +283,7 @@ export default function ThemeItem(){
                         </div>
                         <Select
                             className='themeItem_left_bar_select'
+                            defaultValue={active_theme || 0}
                             showSearch
                             onChange={onSelectChange}
                             options={select_options}

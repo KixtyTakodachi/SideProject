@@ -109,3 +109,12 @@
     pointer-events: none;
   }
 }
+
+.themes_table_name{
+  color: #4870b7;
+  transition: 0.3s all;
+  cursor: pointer;
+  &:hover{
+    color: #4491f5;
+  }
+}
