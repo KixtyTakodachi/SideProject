@@ -29,8 +29,6 @@ import {
 import { Select } from "antd";
 import { DatePicker } from "antd"
 import { Checkbox} from "antd";
-// import "moment/locale/ru"
-// import "moment/locale/kk"
 import "dayjs/locale/ru"
 import "dayjs/locale/kk"
 import { default as localeKz } from 'antd/es/date-picker/locale/kk_KZ'
@@ -42,7 +40,24 @@ import vk from '../../img/vk.png'
 import ok from '../../img/ok.png'
 import dzen from '../../img/dzen.png'
 import comment_img from '../../img/comment_img.png'
-import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip} from 'recharts'
+import {
+    LineChart,
+    Line,
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Tooltip,
+    BarChart,
+    Bar,
+    PieChart,
+    Pie,
+    Cell,
+    RadarChart,
+    Radar,
+    PolarGrid,
+    PolarAngleAxis,
+    PolarRadiusAxis,
+} from 'recharts'
 import "./ThemeItem.scss"
 
 const { RangePicker } = DatePicker
@@ -126,6 +141,10 @@ export default function ThemeItem(){
 
     const [chartData, setChartData] = useState([])
 
+    const [pieChartData, setPieChartData] = useState([])
+
+    const [radarChartData, setRadarChartData] = useState([])
+
     const [legendsFilter, setLegendsFilter] = useState([])
 
     useEffect(() => {
@@ -137,13 +156,38 @@ export default function ThemeItem(){
             dates.push(date)
             date = dayjs(date).add(1, 'day').format('YYYY-MM-DD')
         }
-        setChartData(
-            dates.map(item => {
+        const chartsData = dates.map(item => {
+            return {
+                date: item,
+                mentions: Math.round(Math.random() * 10),
+                negative: Math.round(Math.random() * 10),
+                positive: Math.round(Math.random() * 10)
+            }
+        })
+        setChartData(chartsData)
+        const pieChartData = Object.entries(chartsData.reduce((a,b) => {
+            return {
+                mentions: a.mentions + b.mentions,
+                negative: a.negative + b.negative,
+                positive: a.positive + b.positive
+            }
+        })).map(([key, item]) => {
+            return{
+                name: key,
+                value: item
+            }
+        })
+        setPieChartData(pieChartData)
+        const tooltip_dict = {
+            negative: 'Негатив',
+            positive: 'Позитив',
+            mentions: language === 'Ru' ? 'Количество упоминаний' : 'Ескертулер саны',
+        }
+        setRadarChartData(
+            pieChartData.map(item => {
                 return {
-                    date: item,
-                    mentions: Math.round(Math.random() * 10),
-                    negative: Math.round(Math.random() * 10),
-                    positive: Math.round(Math.random() * 10)
+                    name: tooltip_dict[item.name],
+                    value: item.value
                 }
             })
         )
@@ -152,8 +196,6 @@ export default function ThemeItem(){
     const dataSource = useStore(state => state.dataSource)
 
     const active_theme = useStore(state => state.active_theme)
-
-    console.log('active_theme', active_theme)
 
     const select_options = dataSource.map(item => {
         return {
@@ -224,6 +266,12 @@ export default function ThemeItem(){
             icon: <DeleteOutlined style={{marginRight:'10px'}}/>,
         },
     ]
+
+    const pie_colors = {
+        mentions: '#8fc144',
+        negative: '#cf6662',
+        positive: '#4779d0',
+    }
 
     const onSelectChange = (value) => {
         console.log('selected value', value)
@@ -313,23 +361,23 @@ export default function ThemeItem(){
                             }
                         </h1>
                         <div className='themeItem_content_chart'>
-                            <LineChart width={1024} height={200} data={chartData}>
+                            <LineChart width={512} height={200} data={chartData}>
                                 {
                                     !legendsFilter.includes('positive') ?
                                         <Line type={'monotone'} dataKey={'positive'} stroke={'#8fc144'}/>
-                                    :
+                                        :
                                         ''
                                 }
                                 {
                                     !legendsFilter.includes('mentions') ?
                                         <Line type={'monotone'} dataKey={'mentions'} stroke={'#4779d0'}/>
-                                    :
+                                        :
                                         ''
                                 }
                                 {
                                     !legendsFilter.includes('negative') ?
                                         <Line type={'monotone'} dataKey={'negative'} stroke={'#cf6662'}/>
-                                    :
+                                        :
                                         ''
                                 }
                                 <CartesianGrid stroke={'#b6b6b6'}/>
@@ -337,6 +385,57 @@ export default function ThemeItem(){
                                 <YAxis />
                                 <Tooltip content={<CustomChartToolTip />}/>
                             </LineChart>
+                            <BarChart width={512} height={200} data={chartData}>
+                                {
+                                    !legendsFilter.includes('positive') ?
+                                        <Bar type={'monotone'} dataKey={'positive'} stroke={'#8fc144'}/>
+                                        :
+                                        ''
+                                }
+                                {
+                                    !legendsFilter.includes('mentions') ?
+                                        <Bar type={'monotone'} dataKey={'mentions'} stroke={'#4779d0'}/>
+                                        :
+                                        ''
+                                }
+                                {
+                                    !legendsFilter.includes('negative') ?
+                                        <Bar type={'monotone'} dataKey={'negative'} stroke={'#cf6662'}/>
+                                        :
+                                        ''
+                                }
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey={'date'}/>
+                                <YAxis />
+                                <Tooltip content={<CustomChartToolTip />}/>
+                            </BarChart>
+                            <PieChart width={512} height={230}>
+                                <Pie
+                                    dataKey='value'
+                                    isAnimationActive
+                                    data={pieChartData}
+                                    cx={'50%'}
+                                    cy={'50%'}
+                                    fill={'#8884d8'}
+                                    label
+                                >
+                                    {
+                                        pieChartData.map((entry, index) => {
+                                            return(
+                                                <Cell key={`cell_${index}`} fill={pie_colors[entry.name]}/>
+                                            )
+                                        })
+                                    }
+                                </Pie>
+                                <Tooltip content={<PieChartToolTip />}/>
+                            </PieChart>
+                            <RadarChart width={512} height={230} data={radarChartData}>
+                                <PolarGrid/>
+                                <PolarAngleAxis dataKey={'name'}/>
+                                <PolarRadiusAxis angle={30} domain={[0, 250]}/>
+                                <Radar dataKey={'value'} stroke={'#4779d0'} fill={'#4779d0'} opacity={0.6}/>
+                                <Tooltip content={<RadarChartToolTip />}/>
+                            </RadarChart>
                             <div className='themeItem_content_chart_lagends_wrapper'>
                                 <div
                                     className={[
@@ -606,7 +705,7 @@ function CommentComponent(props){
                     </div>
                     <a href={link} style={{color: '#4870b7', textDecoration:'none', display: 'block', marginTop: '10px'}}>{
                         language === 'Ru' ?
-                            'Показать польный текст >'
+                            'Показать полный текст >'
                         :
                             'Толық текстті көрсету >'
                     }</a>
@@ -642,9 +741,60 @@ function CustomChartToolTip({active, payload, label}){
         return (
             <div className='chart_tooltip'>
                 <div className='chart_tooltip_text'>{(language === 'Ru' ? 'Дата: ' : 'Күні: ') + label}</div>
-                <div className='chart_tooltip_text'>{tooltip_dict[payload[1].name] + ': ' + payload[1].value}</div>
-                <div className='chart_tooltip_text'>{tooltip_dict[payload[0].name] + ': ' + payload[0].value}</div>
-                <div className='chart_tooltip_text'>{tooltip_dict[payload[2].name] + ': ' + payload[2].value}</div>
+                {
+                    payload[1] ?
+                        <div className='chart_tooltip_text'>{tooltip_dict[payload[1].name] + ': ' + payload[1].value}</div>
+                    :
+                        ''
+                }
+                {
+                    payload[0] ?
+                        <div className='chart_tooltip_text'>{tooltip_dict[payload[0].name] + ': ' + payload[0].value}</div>
+                    :
+                        ''
+                }
+                {
+                    payload[2] ?
+                        <div className='chart_tooltip_text'>{tooltip_dict[payload[2].name] + ': ' + payload[2].value}</div>
+                    :
+                        ''
+                }
+            </div>
+        )
+    }
+}
+
+function PieChartToolTip({active, payload}){
+
+    const language = useStore(state => state.language)
+
+    if(active && payload && payload.length > 0){
+        const tooltip_dict = {
+            negative: 'Негатив',
+            positive: 'Позитив',
+            mentions: language === 'Ru' ? 'Количество упоминаний' : 'Ескертулер саны',
+        }
+        return (
+            <div className='chart_tooltip'>
+                {
+                    payload[0] ?
+                        <div className='chart_tooltip_text'>{tooltip_dict[payload[0].name] + ': ' + payload[0].value}</div>
+                        :
+                        ''
+                }
+            </div>
+        )
+    }
+}
+
+function RadarChartToolTip({active, payload}){
+
+    const language = useStore(state => state.language)
+
+    if(active && payload.length > 0){
+        return (
+            <div className='chart_tooltip'>
+                <div className='chart_tooltip_text'>{payload[0].payload.name + ': ' + payload[0].value}</div>
             </div>
         )
     }
