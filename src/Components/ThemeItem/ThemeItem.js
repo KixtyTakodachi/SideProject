@@ -641,7 +641,7 @@ function CustomChartToolTip({active, payload, label}){
         }
         return (
             <div className='chart_tooltip'>
-                <div className='chart_tooltip_text'>{language === 'Ru' ? 'Дата: ' : 'Күні: ' + label}</div>
+                <div className='chart_tooltip_text'>{(language === 'Ru' ? 'Дата: ' : 'Күні: ') + label}</div>
                 <div className='chart_tooltip_text'>{tooltip_dict[payload[1].name] + ': ' + payload[1].value}</div>
                 <div className='chart_tooltip_text'>{tooltip_dict[payload[0].name] + ': ' + payload[0].value}</div>
                 <div className='chart_tooltip_text'>{tooltip_dict[payload[2].name] + ': ' + payload[2].value}</div>
