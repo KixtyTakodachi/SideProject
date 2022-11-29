@@ -3,6 +3,7 @@ import './Login.scss'
 import {Form, Input, Button, Checkbox} from "antd";
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {useStore} from "../../store/store";
+import {ru_kz_dict} from "../../dictionaries/ru_kz_dict";
 
 export default function Login(){
 
@@ -32,10 +33,14 @@ export default function Login(){
         <div className='login_bg'>
             <div className='login_form'>
                 <h1 className='login_title'>
-                    Вход
+                    {
+                        ru_kz_dict.vhod[language]
+                    }
                 </h1>
                 <div className={['login_error', isError ? 'active' : ''].join(' ')}>
-                    Неверное имя пользователя или пароль
+                    {
+                        ru_kz_dict.login_oshibka[language]
+                    }
                 </div>
                 <Form
                     className='form'
@@ -43,23 +48,23 @@ export default function Login(){
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
                 >
-                    <Form.Item name='login' rules={[{required: true, message:'Введите логин!'}]}>
+                    <Form.Item name='login' rules={[{required: true, message: ru_kz_dict.vvedite_login[language]}]}>
                         <Input className='form_input' prefix={<UserOutlined />} placeholder='Логин'/>
                     </Form.Item>
-                    <Form.Item name='password' rules={[{required: true, message: 'Ввеидте пароль!'}]}>
+                    <Form.Item name='password' rules={[{required: true, message: ru_kz_dict.vvedite_parol[language]}]}>
                         <Input.Password className='form_input' prefix={<LockOutlined />} placeholder='Пароль'/>
                     </Form.Item>
                     <Form.Item name='remember_me' valuePropName='checked'>
-                        <Checkbox defaultChecked={false}> Запомнить меня </Checkbox>
+                        <Checkbox defaultChecked={false}> {ru_kz_dict.zapomnitb[language]} </Checkbox>
                     </Form.Item>
-                    <Button htmlType='submit' type='primary' className='form_button'>Вход</Button>
+                    <Button htmlType='submit' type='primary' className='form_button'>{ru_kz_dict.vhod[language]}</Button>
                 </Form>
                 <div className='login_language'>
-                    <div className={['login_language_item', language === 'Ru' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('Ru')}>
+                    <div className={['login_language_item', language === 'ru' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('ru')}>
                         Ру
                     </div>
                     /
-                    <div className={['login_language_item', language === 'Kz' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('Kz')}>
+                    <div className={['login_language_item', language === 'kz' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('kz')}>
                         Кз
                     </div>
                 </div>

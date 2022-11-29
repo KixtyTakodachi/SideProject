@@ -6,6 +6,8 @@ import { EditOutlined, PauseOutlined, DeleteOutlined} from '@ant-design/icons'
 import './Themes.scss'
 import Footer from "../Footer/Footer";
 import {Link} from "react-router-dom";
+import {ru_kz_dict} from "../../dictionaries/ru_kz_dict";
+import {themes_dict} from "../../dictionaries/themes_dict";
 
 export default function Themes(){
 
@@ -19,15 +21,15 @@ export default function Themes(){
 
     const select_options = [
         {
-            label: language === 'Ru' ? 'Все группы' : 'Барлық топтар',
+            label: ru_kz_dict.all_groups[language],
             value: 'all'
         },
         {
-            label: language === 'Ru' ? 'Коммерческие' : 'Коммерциялық',
+            label: ru_kz_dict.commercial[language],
             value: 'commercial'
         },
         {
-            label: language === 'Ru' ? 'Демо' : 'Демо',
+            label: 'Демо',
             value: 'demo'
         }
     ]
@@ -44,42 +46,43 @@ export default function Themes(){
             key: 'type',
             render: (_, record) => (
                 <div className='themes_table_type'>
-                    {record.type}
+                    {
+                        record.type === 'СМ' ?
+                            ru_kz_dict.sm[language]
+                        :
+                            ru_kz_dict.smi[language]
+                    }
                     <div className='themes_table_type_tooltip'>
                         {
                             record.type === 'СМ' ?
-                                language === 'Ru' ?
-                                    'Социальные медиа и онлайн-СМИ'
-                                    :
-                                    'Әлеуметтік желілер және онлайн СМИ'
+                                    ru_kz_dict.sm_tooltip[language]
+
                                 :
-                                language === 'Ru' ?
-                                    'Онлайн-СМИ, пресса, ТВ, радио'
-                                    :
-                                    'Онлайн, СМИ, баспасөз, телевидение, радио'
+                                    ru_kz_dict.smi_tooltip[language]
+
                         }
                     </div>
                 </div>
             )
         },
         {
-            title: language === 'Ru' ? 'Название' : 'Атауы',
+            title: ru_kz_dict.title[language],
             key: 'name',
             render: (_, record) => (
                 <div>
                     <Link to='/theme'>
                         <div className='themes_table_name' onClick={() => chooseTheme(record.id)}>{record.name}</div>
                     </Link>
-                    <div>{language === 'Ru' ?
-                        'Данные собираются с ' + record.date_from
+                    <div>{language === 'ru' ?
+                        ru_kz_dict.dannie.ru + record.date_from
                         :
-                        'Деректер ' + record.date_from + '-ден жиналады'
+                        ru_kz_dict.dannie.kz.slice(0,9) + record.date_from + ru_kz_dict.dannie.kz.slice(9)
                     }</div>
                 </div>
             )
         },
         {
-            title: language === 'Ru' ? 'Действия' : 'Іс-әрекеттер',
+            title: ru_kz_dict.actions[language],
             key: 'action',
             render: (_, record) => (
                 <div className='themes_table_button_wrapper'>
@@ -87,10 +90,7 @@ export default function Themes(){
                         <EditOutlined />
                         <div className='themes_table_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Редактировать'
-                                    :
-                                    'Өңдеу'
+                                ru_kz_dict.edit_tooltip[language]
                             }
                         </div>
                     </Button>
@@ -98,10 +98,7 @@ export default function Themes(){
                         <PauseOutlined />
                         <div className='themes_table_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Остановить'
-                                    :
-                                    'Тоқтау'
+                                ru_kz_dict.stop_tooltip[language]
                             }
                         </div>
                     </Button>
@@ -109,10 +106,7 @@ export default function Themes(){
                         <DeleteOutlined />
                         <div className='themes_table_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Удалить'
-                                    :
-                                    'Жою'
+                                ru_kz_dict.delete_tooltip[language]
                             }
                         </div>
                     </Button>
@@ -148,7 +142,7 @@ export default function Themes(){
     }
 
     const chooseTheme = (id) => {
-        changeActiveTheme(id)
+        changeActiveTheme(themes_dict[dataSource.find(item => item.id == id).name])
     }
 
     return (
@@ -156,7 +150,7 @@ export default function Themes(){
             <Header/>
             <div className='container'>
                 <div className='themes_header'>
-                    <h1 className='themes_header_title'>{language === 'Ru' ? 'Темы' : 'Темалар'}</h1>
+                    <h1 className='themes_header_title'>{ru_kz_dict.temi[language]}</h1>
                     <Select
                         className='themes_select'
                         defaultValue={'all'}
@@ -165,10 +159,7 @@ export default function Themes(){
                     />
                     <Button className='themes_header_button' type='primary' onClick={addNewTheme}>
                         {
-                            language === 'Ru' ?
-                                'Добавить новую тему'
-                            :
-                                'Жаңа тема қосу'
+                            ru_kz_dict.add_theme[language]
                         }
                     </Button>
                 </div>

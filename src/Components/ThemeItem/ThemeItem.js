@@ -59,6 +59,8 @@ import {
     PolarRadiusAxis,
 } from 'recharts'
 import "./ThemeItem.scss"
+import {ru_kz_dict} from "../../dictionaries/ru_kz_dict";
+import {themes_dict} from "../../dictionaries/themes_dict";
 
 const { RangePicker } = DatePicker
 
@@ -66,72 +68,7 @@ export default function ThemeItem(){
 
     const language = useStore(state => state.language)
 
-    let comments_source = [
-        {
-            id: 0,
-            name: 'Test test 1',
-            avatar: comment_avatar,
-            author_audience: 100,
-            public_source: 'Test public 1',
-            public_source_link: '#',
-            public_audience: 10000,
-            social_media: 'facebook.com',
-            link: 'https://facebook.com',
-            message_type: 'Пост' ,
-            date: '01.05.2022',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
-            picture: comment_img,
-            favourite: false,
-        },
-        {
-            id: 1,
-            name: 'Test test 2',
-            avatar: comment_avatar,
-            author_audience: 200,
-            public_source: 'Test public 2',
-            public_source_link: '#',
-            public_audience: 20000,
-            social_media: 'ok.ru',
-            link: 'https://ok.ru',
-            message_type: language === 'Ru' ? 'Коммент' : 'Пікір',
-            date: '02.05.2022',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
-            picture: comment_img,
-            favourite: true,
-        },
-        {
-            id: 2,
-            name: 'Test test 3',
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Пост' ,
-            date: '03.05.2022',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
-            picture: comment_img,
-            favourite: true,
-        },
-        {
-            id: 3,
-            name: 'Test test 4',
-            avatar: comment_avatar,
-            author_audience: 400,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'dzen.com',
-            link: 'https://dzen.com/',
-            message_type: 'Пост' ,
-            date: '04.05.2022',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias autem culpa delectus deleniti distinctio facilis in ipsam iusto magni minus praesentium, quae reiciendis sequi similique tenetur ullam. Ea, facere...',
-            picture: comment_img,
-            favourite: false,
-        },
-    ]
+    const comments_source = useStore(state => state.comment_data)
 
     const [activeTab, setActiveTab] = useState(0)
 
@@ -181,7 +118,7 @@ export default function ThemeItem(){
         const tooltip_dict = {
             negative: 'Негатив',
             positive: 'Позитив',
-            mentions: language === 'Ru' ? 'Количество упоминаний' : 'Ескертулер саны',
+            mentions: ru_kz_dict.count_upominaniy[language],
         }
         setRadarChartData(
             pieChartData.map(item => {
@@ -193,13 +130,17 @@ export default function ThemeItem(){
         )
     },[currentDateRange])
 
+    useEffect(() => {
+        setContentComments(comments_source)
+    }, [JSON.stringify(comments_source)])
+
     const dataSource = useStore(state => state.dataSource)
 
     const active_theme = useStore(state => state.active_theme)
 
     const select_options = dataSource.map(item => {
         return {
-            value: item.id,
+            value: themes_dict[item.name],
             label: item.name
         }
     })
@@ -207,62 +148,62 @@ export default function ThemeItem(){
     const left_bar_menu = [
         {
             id: 0,
-            name: language === 'Ru' ? 'Сводный отчет' : 'Жиынтық есеп',
+            name: ru_kz_dict.otchet[language],
             icon: <AppstoreOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 1,
-            name: language === 'Ru' ? 'Источники' : 'Дереккөздер',
+            name: ru_kz_dict.sources[language],
             icon: <DeploymentUnitOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 2,
-            name: language === 'Ru' ? 'Авторы' : 'Авторлар',
+            name: ru_kz_dict.authors[language],
             icon: <HighlightOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 3,
-            name: language === 'Ru' ? 'Сообщества' : 'Қоғамдықтар',
+            name: ru_kz_dict.community[language],
             icon: <TeamOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 4,
-            name: language === 'Ru' ? 'География' : 'География',
+            name: ru_kz_dict.geography[language],
             icon: <EnvironmentOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 5,
-            name: language === 'Ru' ? 'Теги' : 'Белгілемелер',
+            name: ru_kz_dict.tegs[language],
             icon: <TagOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 6,
-            name: language === 'Ru' ? 'Популярные слова' : 'Танымал сөздер',
+            name: ru_kz_dict.popular_words[language],
             icon: <MessageOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 7,
-            name: language === 'Ru' ? 'Ссылки' : 'Сілтемелер',
+            name: ru_kz_dict.links[language],
             icon: <LinkOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 8,
-            name: language === 'Ru' ? 'Персоны' : 'Персоналар',
+            name: ru_kz_dict.persons[language],
             icon: <UserOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 9,
-            name: language === 'Ru' ? 'Юрлица' : 'Заңды тұлғалар',
+            name: ru_kz_dict.ur_faces[language],
             icon: <AuditOutlined style={{marginRight:'10px'}}/>,
         },
         {
             id: 10,
-            name: language === 'Ru' ? 'Места' : 'Орындар',
+            name: ru_kz_dict.places[language],
             icon: <SendOutlined rotate={-45} style={{marginRight:'10px'}}/>,
         },
         {
             id: 11,
-            name: language === 'Ru' ? 'Корзина' : 'Себет',
+            name: ru_kz_dict.basket[language],
             icon: <DeleteOutlined style={{marginRight:'10px'}}/>,
         },
     ]
@@ -290,20 +231,7 @@ export default function ThemeItem(){
         console.log(`onCommentSelect id - ${e.target['data-id']} checked - ${e.target.checked}`)
     }
 
-    const toggleFavourite = (id) => {
-        setContentComments(
-            content_comments.map(item => {
-                if(item.id === id){
-                    return {
-                        ...item,
-                        favourite: !item.favourite
-                    }
-                } else {
-                    return item
-                }
-            })
-        )
-    }
+    const toggleFavourite = useStore(state => state.toggleFavorite)
 
     const actionClick = (action, id) => {
         console.log(`actionClick action - ${action} from id - ${id}`)
@@ -324,7 +252,7 @@ export default function ThemeItem(){
                 <div className='themeItem_wrapper'>
                     <div className='themeItem_left_bar'>
                         <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px'}}>
-                            <h1 className='themeItem_left_bar_title'>{language === 'Ru' ? 'Темы' : 'Темалар'}</h1>
+                            <h1 className='themeItem_left_bar_title'>{ru_kz_dict.temi[language]}</h1>
                             <div className='themeItem_left_bar_button'>
                                 <PlusSquareOutlined />
                             </div>
@@ -363,7 +291,7 @@ export default function ThemeItem(){
                             </h1>
                             <div className='themeItem_right_bar_calendar_wrapper'>
                                 <RangePicker
-                                    locale={language === 'Ru' ? localeRu : localeKz}
+                                    locale={language === 'ru' ? localeRu : localeKz}
                                     onChange={(values) => onChange(values)}
                                     value={currentDateRange}
                                     size={'large'}
@@ -457,10 +385,7 @@ export default function ThemeItem(){
                                     onClick={() => filterChart('positive')}>
                                     <div className='round' style={{background:'#8fc144'}}></div>
                                     {
-                                        language === 'Ru' ?
-                                            'Количество упоминаний'
-                                        :
-                                            'Ескертулер саны'
+                                        ru_kz_dict.count_upominaniy[language]
                                     }
                                 </div>
                                 <div
@@ -578,10 +503,7 @@ function CommentComponent(props){
                                         }
                                         <div className='action_button_tooltip'>
                                             {
-                                                language === 'Ru' ?
-                                                    'Аудитория автора'
-                                                :
-                                                    'Автордың аудиториясы'
+                                                ru_kz_dict.author_auditory[language]
                                             }
                                         </div>
                                     </div>
@@ -593,10 +515,7 @@ function CommentComponent(props){
                                     <>
                                         <div style={{fontSize: '14px'}}>
                                             {
-                                                language === 'Ru' ?
-                                                    'в'
-                                                :
-                                                    'ішінде'
+                                                ru_kz_dict.in[language]
                                             }
                                             <a style={{color:'#4870b7', textDecoration:'none', fontSize:'14px'}} href={public_source_link}>{' '+public_source}</a>
                                         </div>
@@ -609,10 +528,7 @@ function CommentComponent(props){
                                                     }
                                                     <div className='action_button_tooltip'>
                                                         {
-                                                            language === 'Ru' ?
-                                                                'Аудитория сообщения'
-                                                            :
-                                                                'Хабар аудиториясы'
+                                                            ru_kz_dict.message_auditory[language]
                                                         }
                                                     </div>
                                                 </div>
@@ -627,7 +543,7 @@ function CommentComponent(props){
                         <div style={{display: 'flex', alignItems: 'center'}}>
                             <img src={social_media_img_dictionary[social_media.split('.')[0]]} style={{marginRight: '5px'}} alt={'social_media'}/>
                             <a style={{fontSize: '12px', textDecoration: 'none', color: '#4870b7', marginRight: '10px'}} href={link} target={"_blank"} rel='noreferrer'>{social_media}</a>
-                            <div style={{color:'#b6b6b6', fontSize:'12px', marginRight: '10px'}}>{message_type}</div>
+                            <div style={{color:'#b6b6b6', fontSize:'12px', marginRight: '10px'}}>{message_type === 'Коммент' ? ru_kz_dict.comment[language] : message_type}</div>
                             <div style={{fontSize: '12px'}}>{date}</div>
                         </div>
                     </div>
@@ -637,10 +553,7 @@ function CommentComponent(props){
                         <CheckOutlined/>
                         <div className='action_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Пометить как обработанное'
-                                :
-                                    'Өңделген деп белгілеу'
+                                ru_kz_dict.obrabotannoe_tooltip[language]
                             }
                         </div>
                     </div>
@@ -648,10 +561,7 @@ function CommentComponent(props){
                         <BookOutlined/>
                         <div className='action_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Добавить в избранное'
-                                :
-                                    'Таңдаулыларға қосу'
+                                ru_kz_dict.favorite_msg_tooltip[language]
                             }
                         </div>
                     </div>
@@ -659,10 +569,7 @@ function CommentComponent(props){
                         <MehFilled/>
                         <div className='action_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Нейтрально'
-                                :
-                                    'Бейтарап'
+                                ru_kz_dict.neutral_tooltip[language]
                             }
                         </div>
                     </div>
@@ -670,10 +577,7 @@ function CommentComponent(props){
                         <PushpinFilled />
                         <div className='action_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Создать поручение'
-                                :
-                                    'Тапсырма жасау'
+                                ru_kz_dict.poruchenie_tooltip[language]
                             }
                         </div>
                     </div>
@@ -681,10 +585,7 @@ function CommentComponent(props){
                         <ShareAltOutlined />
                         <div className='action_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Поделиться'
-                                :
-                                    'Бөлісу'
+                                ru_kz_dict.share_tooltip[language]
                             }
                         </div>
                     </div>
@@ -692,10 +593,7 @@ function CommentComponent(props){
                         <DeleteFilled />
                         <div className='action_button_tooltip'>
                             {
-                                language === 'Ru' ?
-                                    'Удалить'
-                                :
-                                    'Жою'
+                                ru_kz_dict.delete_tooltip[language]
                             }
                         </div>
                     </div>
@@ -709,22 +607,13 @@ function CommentComponent(props){
                         }
                     </div>
                     <a href={link} style={{color: '#4870b7', textDecoration:'none', display: 'block', marginTop: '10px'}}>{
-                        language === 'Ru' ?
-                            'Показать полный текст >'
-                        :
-                            'Толық текстті көрсету >'
+                        ru_kz_dict.show_full[language]
                     }</a>
                     <div className='themeItem_comment_body_bottom_text'> {
-                        language === 'Ru' ?
-                            'Редактировать разметку'
-                        :
-                            'Белгілемені өңдеу'
+                        ru_kz_dict.edit[language]
                     }</div>
                     <div className='themeItem_comment_body_bottom_text'><PlusOutlined /> {
-                        language === 'Ru' ?
-                            'Добавить теги'
-                        :
-                            'Тегті қосу'
+                        ru_kz_dict.add_tags[language]
                     }</div>
                 </div>
                 <img src={picture} className='themeItem_comment_picture' alt='post_picture'/>
@@ -741,7 +630,7 @@ function CustomChartToolTip({active, payload, label}){
         const tooltip_dict = {
             negative: 'Негатив',
             positive: 'Позитив',
-            mentions: language === 'Ru' ? 'Количество упоминаний' : 'Ескертулер саны',
+            mentions: ru_kz_dict.count_upominaniy[language],
         }
         return (
             <div className='chart_tooltip'>
@@ -777,7 +666,7 @@ function PieChartToolTip({active, payload}){
         const tooltip_dict = {
             negative: 'Негатив',
             positive: 'Позитив',
-            mentions: language === 'Ru' ? 'Количество упоминаний' : 'Ескертулер саны',
+            mentions: ru_kz_dict.count_upominaniy[language],
         }
         return (
             <div className='chart_tooltip'>

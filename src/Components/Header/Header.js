@@ -5,6 +5,7 @@ import avatar from '../../img/avatar.svg'
 import { SettingOutlined, ExportOutlined } from '@ant-design/icons';
 import {useStore} from "../../store/store";
 import {Link} from "react-router-dom";
+import {ru_kz_dict} from "../../dictionaries/ru_kz_dict";
 
 export default function Header(){
 
@@ -38,14 +39,14 @@ export default function Header(){
                     <ul className='header_menu'>
                         <Link to='/themes' style={{textDecoration:'none'}}>
                             <li className={['header_menu_item', page === 'themes' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('themes')}>
-                                {language === 'Ru' ? 'Темы' : 'Темалар' }
+                                {ru_kz_dict.temi[language]}
                             </li>
                         </Link>
                         <li className={['header_menu_item', page === 'settings' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('settings')}>
-                            {language === 'Ru' ? 'Настройки' : 'Параметрлер' }
+                            {ru_kz_dict.settings[language]}
                         </li>
                         <li className={['header_menu_item', page === 'help' ? 'active_menu_item' : ''].join(' ')} onClick={() => menuClick('help')}>
-                            {language === 'Ru' ? 'Помощь' : 'Көмек' }
+                            {ru_kz_dict.help[language]}
                         </li>
                     </ul>
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems:'center'}}>
@@ -61,19 +62,19 @@ export default function Header(){
                                 </div>
                                 <div className='divider'></div>
                                 <li className='header_user_menu_item' onClick={() => {profileMenuClick('profile')}}>
-                                    <SettingOutlined style={{color: '#007eff'}}/> {language === 'Ru' ? 'Профиль' : 'Профиль' }
+                                    <SettingOutlined style={{color: '#007eff'}}/> Профиль
                                 </li>
                                 <li className='header_user_menu_item' onClick={() => {profileMenuClick('login')}}>
-                                    <ExportOutlined style={{color: '#007eff'}}/> {language === 'Ru' ? 'Выход' : 'Шығу' }
+                                    <ExportOutlined style={{color: '#007eff'}}/> {ru_kz_dict.exit[language]}
                                 </li>
                             </ul>
                         </div>
                         <div className='header_language'>
-                            <div className={['header_language_item', language === 'Ru' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('Ru')}>
+                            <div className={['header_language_item', language === 'ru' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('ru')}>
                                 Ру
                             </div>
                             /
-                            <div className={['header_language_item', language === 'Kz' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('Kz')}>
+                            <div className={['header_language_item', language === 'kz' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('kz')}>
                                 Кз
                             </div>
                         </div>
