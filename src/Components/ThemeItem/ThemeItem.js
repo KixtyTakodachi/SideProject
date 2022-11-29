@@ -399,19 +399,19 @@ export default function ThemeItem(){
                             <BarChart width={642} height={200} data={chartData}>
                                 {
                                     !legendsFilter.includes('positive') ?
-                                        <Bar type={'monotone'} dataKey={'positive'} stroke={'#8fc144'}/>
+                                        <Bar type={'monotone'} dataKey={'positive'} fill={'#8fc144'}/>
                                         :
                                         ''
                                 }
                                 {
                                     !legendsFilter.includes('mentions') ?
-                                        <Bar type={'monotone'} dataKey={'mentions'} stroke={'#4779d0'}/>
+                                        <Bar type={'monotone'} dataKey={'mentions'} fill={'#4779d0'}/>
                                         :
                                         ''
                                 }
                                 {
                                     !legendsFilter.includes('negative') ?
-                                        <Bar type={'monotone'} dataKey={'negative'} stroke={'#cf6662'}/>
+                                        <Bar type={'monotone'} dataKey={'negative'} fill={'#cf6662'}/>
                                         :
                                         ''
                                 }
