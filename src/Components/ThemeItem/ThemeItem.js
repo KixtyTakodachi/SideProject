@@ -511,9 +511,9 @@ export default function ThemeItem(){
                             }
                         </div>
                     </div>
-                    <div className='themeItem_right_bar'>
+                    {/*<div className='themeItem_right_bar'>*/}
 
-                    </div>
+                    {/*</div>*/}
                 </div>
             </div>
             <Footer/>
