@@ -2,8 +2,13 @@ import React, {useState} from 'react'
 import './Login.scss'
 import {Form, Input, Button, Checkbox} from "antd";
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import {useStore} from "../../store/store";
 
 export default function Login(){
+
+    const language = useStore(state => state.language)
+
+    const changeLanguage = useStore(state => state.changeLanguage)
 
     const [isError, setIsError] = useState(false)
     const usersList = [
@@ -49,6 +54,15 @@ export default function Login(){
                     </Form.Item>
                     <Button htmlType='submit' type='primary' className='form_button'>Вход</Button>
                 </Form>
+                <div className='login_language'>
+                    <div className={['login_language_item', language === 'Ru' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('Ru')}>
+                        Ру
+                    </div>
+                    /
+                    <div className={['login_language_item', language === 'Kz' ? 'language_active' : ''].join(' ')} onClick={() => changeLanguage('Kz')}>
+                        Кз
+                    </div>
+                </div>
             </div>
         </div>
     )

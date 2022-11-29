@@ -46,3 +46,21 @@
 .active{
   display: block;
 }
+
+.login_language{
+  display: flex;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.login_language_item{
+  margin: 0px 5px;
+  padding: 1px 4px;
+  font-size: 14px;
+}
+
+.language_active{
+  background: #617083;
+  color: white;
+}
