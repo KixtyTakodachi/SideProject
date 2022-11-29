@@ -372,7 +372,7 @@ export default function ThemeItem(){
                             </div>
                         </div>
                         <div className='themeItem_content_chart'>
-                            <LineChart width={512} height={200} data={chartData}>
+                            <LineChart width={642} height={200} data={chartData}>
                                 {
                                     !legendsFilter.includes('positive') ?
                                         <Line type={'monotone'} dataKey={'positive'} stroke={'#8fc144'}/>
@@ -396,7 +396,7 @@ export default function ThemeItem(){
                                 <YAxis />
                                 <Tooltip content={<CustomChartToolTip />}/>
                             </LineChart>
-                            <BarChart width={512} height={200} data={chartData}>
+                            <BarChart width={642} height={200} data={chartData}>
                                 {
                                     !legendsFilter.includes('positive') ?
                                         <Bar type={'monotone'} dataKey={'positive'} stroke={'#8fc144'}/>
@@ -420,7 +420,7 @@ export default function ThemeItem(){
                                 <YAxis />
                                 <Tooltip content={<CustomChartToolTip />}/>
                             </BarChart>
-                            <PieChart width={512} height={230}>
+                            <PieChart width={642} height={230}>
                                 <Pie
                                     dataKey='value'
                                     isAnimationActive
@@ -440,7 +440,7 @@ export default function ThemeItem(){
                                 </Pie>
                                 <Tooltip content={<PieChartToolTip />}/>
                             </PieChart>
-                            <RadarChart width={512} height={230} data={radarChartData}>
+                            <RadarChart width={642} height={230} data={radarChartData}>
                                 <PolarGrid/>
                                 <PolarAngleAxis dataKey={'name'}/>
                                 <PolarRadiusAxis angle={30} domain={[0, 250]}/>
