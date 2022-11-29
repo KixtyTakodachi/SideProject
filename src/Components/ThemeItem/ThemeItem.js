@@ -355,11 +355,22 @@ export default function ThemeItem(){
                         </ul>
                     </div>
                     <div className='themeItem_content'>
-                        <h1 className='themeItem_content_title'>
-                            {
-                                left_bar_menu.find(item => item.id === activeTab).name
-                            }
-                        </h1>
+                        <div className='themeItem_content_title_wrapper'>
+                            <h1 className='themeItem_content_title'>
+                                {
+                                    left_bar_menu.find(item => item.id === activeTab).name
+                                }
+                            </h1>
+                            <div className='themeItem_right_bar_calendar_wrapper'>
+                                <RangePicker
+                                    locale={language === 'Ru' ? localeRu : localeKz}
+                                    onChange={(values) => onChange(values)}
+                                    value={currentDateRange}
+                                    size={'large'}
+                                    className='themeItem_calendar'
+                                />
+                            </div>
+                        </div>
                         <div className='themeItem_content_chart'>
                             <LineChart width={512} height={200} data={chartData}>
                                 {
@@ -501,13 +512,7 @@ export default function ThemeItem(){
                         </div>
                     </div>
                     <div className='themeItem_right_bar'>
-                        <div className='themeItem_right_bar_calendar_wrapper'>
-                            <RangePicker
-                                locale={language === 'Ru' ? localeRu : localeKz}
-                                onChange={(values) => onChange(values)}
-                                value={currentDateRange}
-                            />
-                        </div>
+
                     </div>
                 </div>
             </div>

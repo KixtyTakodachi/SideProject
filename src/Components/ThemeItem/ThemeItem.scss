@@ -82,7 +82,6 @@
 .themeItem_right_bar_calendar_wrapper{
   display: flex;
   align-items: center;
-  margin: 0px 10px;
 }
 
 .themeItem_content{
@@ -290,4 +289,13 @@
 
 .legend_off{
   color: rgb(204, 204, 204)
+}
+
+.themeItem_content_title_wrapper{
+  display: flex;
+  justify-content: space-between;
+}
+
+.themeItem_calendar{
+  font-size: 24px;
 }
