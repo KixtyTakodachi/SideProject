@@ -57,7 +57,7 @@ export const useStore = create((set) => ({
             group_type: 'commercial'
         },
     ],
-    active_theme: 1,
+    active_theme: 'telemed',
     comment_data: [],
     changeActiveTheme: (id) => set((state) => {
         const tempCommentData = []
@@ -73,7 +73,7 @@ export const useStore = create((set) => ({
                 public_audience: 0,
                 social_media: 'vk.com',
                 link: 'https://vk.com',
-                message_type: 'Пост' ,
+                message_type: 'Коммент' ,
                 date: '01.05.2022',
                 text: ru_kz_dict[comments[i]][state.language],
                 picture: comment_img,

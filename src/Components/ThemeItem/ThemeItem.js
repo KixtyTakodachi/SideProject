@@ -371,7 +371,7 @@ export default function ThemeItem(){
                             <RadarChart width={642} height={230} data={radarChartData}>
                                 <PolarGrid/>
                                 <PolarAngleAxis dataKey={'name'}/>
-                                <PolarRadiusAxis angle={30} domain={[0, 250]}/>
+                                <PolarRadiusAxis angle={30} domain={[0, 310]}/>
                                 <Radar dataKey={'value'} stroke={'#4779d0'} fill={'#4779d0'} opacity={0.6}/>
                                 <Tooltip content={<RadarChartToolTip />}/>
                             </RadarChart>
@@ -484,68 +484,68 @@ function CommentComponent(props){
                 <div className='themeItem_comment_user'>
                     <img src={avatar} alt={'avatar'} style={{borderRadius: '100%', marginRight: '10px', height: '35px'}}/>
                     <div className='themeItem_comment_user_info'>
-                        <div style={{marginBottom: '5px', display: 'flex', alignItems:'center'}}>
-                            {
-                                favourite ?
-                                    <StarFilled style={{color: 'gold', marginRight: '5px'}} onClick={() => toggleFavourite(id)}/>
-                                    :
-                                    <StarOutlined style={{ marginRight: '5px'}} onClick={() => toggleFavourite(id)}/>
-                            }
-                            {
-                                <div style={{fontSize: '14px'}}>{name}</div>
-                            }
-                            {
-                                author_audience > 0 ?
-                                    <div className='themeItem_comment_audience'>
-                                        <TeamOutlined />
-                                        {
-                                            author_audience
-                                        }
-                                        <div className='action_button_tooltip'>
-                                            {
-                                                ru_kz_dict.author_auditory[language]
-                                            }
-                                        </div>
-                                    </div>
-                                :
-                                    ''
-                            }
-                            {
-                                public_source.length > 0 ?
-                                    <>
-                                        <div style={{fontSize: '14px'}}>
-                                            {
-                                                ru_kz_dict.in[language]
-                                            }
-                                            <a style={{color:'#4870b7', textDecoration:'none', fontSize:'14px'}} href={public_source_link}>{' '+public_source}</a>
-                                        </div>
-                                        {
-                                            public_audience > 0 ?
-                                                <div className='themeItem_comment_audience'>
-                                                    <TeamOutlined />
-                                                    {
-                                                        public_audience
-                                                    }
-                                                    <div className='action_button_tooltip'>
-                                                        {
-                                                            ru_kz_dict.message_auditory[language]
-                                                        }
-                                                    </div>
-                                                </div>
-                                                :
-                                                ''
-                                        }
-                                    </>
-                                :
-                                    ''
-                            }
-                        </div>
-                        <div style={{display: 'flex', alignItems: 'center'}}>
-                            <img src={social_media_img_dictionary[social_media.split('.')[0]]} style={{marginRight: '5px'}} alt={'social_media'}/>
-                            <a style={{fontSize: '12px', textDecoration: 'none', color: '#4870b7', marginRight: '10px'}} href={link} target={"_blank"} rel='noreferrer'>{social_media}</a>
-                            <div style={{color:'#b6b6b6', fontSize:'12px', marginRight: '10px'}}>{message_type === 'Коммент' ? ru_kz_dict.comment[language] : message_type}</div>
-                            <div style={{fontSize: '12px'}}>{date}</div>
-                        </div>
+                        {/*<div style={{marginBottom: '5px', display: 'flex', alignItems:'center'}}>*/}
+                        {/*    {*/}
+                        {/*        favourite ?*/}
+                        {/*            <StarFilled style={{color: 'gold', marginRight: '5px'}} onClick={() => toggleFavourite(id)}/>*/}
+                        {/*            :*/}
+                        {/*            <StarOutlined style={{ marginRight: '5px'}} onClick={() => toggleFavourite(id)}/>*/}
+                        {/*    }*/}
+                        {/*    {*/}
+                        {/*        <div style={{fontSize: '14px'}}>{name}</div>*/}
+                        {/*    }*/}
+                        {/*    {*/}
+                        {/*        author_audience > 0 ?*/}
+                        {/*            <div className='themeItem_comment_audience'>*/}
+                        {/*                <TeamOutlined />*/}
+                        {/*                {*/}
+                        {/*                    author_audience*/}
+                        {/*                }*/}
+                        {/*                <div className='action_button_tooltip'>*/}
+                        {/*                    {*/}
+                        {/*                        ru_kz_dict.author_auditory[language]*/}
+                        {/*                    }*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*        :*/}
+                        {/*            ''*/}
+                        {/*    }*/}
+                        {/*    {*/}
+                        {/*        public_source.length > 0 ?*/}
+                        {/*            <>*/}
+                        {/*                <div style={{fontSize: '14px'}}>*/}
+                        {/*                    {*/}
+                        {/*                        ru_kz_dict.in[language]*/}
+                        {/*                    }*/}
+                        {/*                    <a style={{color:'#4870b7', textDecoration:'none', fontSize:'14px'}} href={public_source_link}>{' '+public_source}</a>*/}
+                        {/*                </div>*/}
+                        {/*                {*/}
+                        {/*                    public_audience > 0 ?*/}
+                        {/*                        <div className='themeItem_comment_audience'>*/}
+                        {/*                            <TeamOutlined />*/}
+                        {/*                            {*/}
+                        {/*                                public_audience*/}
+                        {/*                            }*/}
+                        {/*                            <div className='action_button_tooltip'>*/}
+                        {/*                                {*/}
+                        {/*                                    ru_kz_dict.message_auditory[language]*/}
+                        {/*                                }*/}
+                        {/*                            </div>*/}
+                        {/*                        </div>*/}
+                        {/*                        :*/}
+                        {/*                        ''*/}
+                        {/*                }*/}
+                        {/*            </>*/}
+                        {/*        :*/}
+                        {/*            ''*/}
+                        {/*    }*/}
+                        {/*</div>*/}
+                        {/*<div style={{display: 'flex', alignItems: 'center'}}>*/}
+                        {/*    <img src={social_media_img_dictionary[social_media.split('.')[0]]} style={{marginRight: '5px'}} alt={'social_media'}/>*/}
+                        {/*    <a style={{fontSize: '12px', textDecoration: 'none', color: '#4870b7', marginRight: '10px'}} href={link} target={"_blank"} rel='noreferrer'>{social_media}</a>*/}
+                        {/*    <div style={{color:'#b6b6b6', fontSize:'12px', marginRight: '10px'}}>{message_type === 'Коммент' ? ru_kz_dict.comment[language] : message_type}</div>*/}
+                        {/*    <div style={{fontSize: '12px'}}>{date}</div>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
                 <div className='themeItem_comment_actions'>
