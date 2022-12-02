@@ -16,6 +16,10 @@ export const useStore = create((set) => ({
                 }),
                 language: lang
             }
+        } else {
+            return {
+                language: lang
+            }
         }
     }),
     active_page: 'themes',
