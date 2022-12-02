@@ -14,7 +14,7 @@ export default function Login(){
     const [isError, setIsError] = useState(false)
     const usersList = [
         {
-            login: 'test',
+            login: '16goncharova@gmail.com',
             password: 'test123'
         }
     ]

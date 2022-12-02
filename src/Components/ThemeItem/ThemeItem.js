@@ -85,49 +85,55 @@ export default function ThemeItem(){
     const [legendsFilter, setLegendsFilter] = useState([])
 
     useEffect(() => {
-        const start_date = dayjs(currentDateRange[0]).format('YYYY-MM-DD')
-        const end_date = dayjs(currentDateRange[1]).format('YYYY-MM-DD')
-        let dates = []
-        let date = start_date
-        while(date <= end_date){
-            dates.push(date)
-            date = dayjs(date).add(1, 'day').format('YYYY-MM-DD')
-        }
-        const chartsData = dates.map(item => {
-            return {
-                date: item,
-                mentions: Math.round(Math.random() * 10),
-                negative: Math.round(Math.random() * 10),
-                positive: Math.round(Math.random() * 10)
+        if(currentDateRange && currentDateRange.every(item => item !== null)){
+            const start_date = dayjs(currentDateRange[0]).format('YYYY-MM-DD')
+            const end_date = dayjs(currentDateRange[1]).format('YYYY-MM-DD')
+            let dates = []
+            let date = start_date
+            while(date <= end_date){
+                dates.push(date)
+                date = dayjs(date).add(1, 'day').format('YYYY-MM-DD')
             }
-        })
-        setChartData(chartsData)
-        const pieChartData = Object.entries(chartsData.reduce((a,b) => {
-            return {
-                mentions: a.mentions + b.mentions,
-                negative: a.negative + b.negative,
-                positive: a.positive + b.positive
-            }
-        })).map(([key, item]) => {
-            return{
-                name: key,
-                value: item
-            }
-        })
-        setPieChartData(pieChartData)
-        const tooltip_dict = {
-            negative: 'Негатив',
-            positive: 'Позитив',
-            mentions: ru_kz_dict.count_upominaniy[language],
-        }
-        setRadarChartData(
-            pieChartData.map(item => {
+            const chartsData = dates.map(item => {
                 return {
-                    name: tooltip_dict[item.name],
-                    value: item.value
+                    date: item,
+                    mentions: Math.round(Math.random() * 10),
+                    negative: Math.round(Math.random() * 10),
+                    positive: Math.round(Math.random() * 10)
                 }
             })
-        )
+            setChartData(chartsData)
+            const pieChartData = Object.entries(chartsData.reduce((a,b) => {
+                return {
+                    mentions: a.mentions + b.mentions,
+                    negative: a.negative + b.negative,
+                    positive: a.positive + b.positive
+                }
+            })).map(([key, item]) => {
+                return{
+                    name: key,
+                    value: item
+                }
+            })
+            setPieChartData(pieChartData)
+            const tooltip_dict = {
+                negative: 'Негатив',
+                positive: 'Позитив',
+                mentions: ru_kz_dict.count_upominaniy[language],
+            }
+            setRadarChartData(
+                pieChartData.map(item => {
+                    return {
+                        name: tooltip_dict[item.name],
+                        value: item.value
+                    }
+                })
+            )
+        } else {
+            setChartData([])
+            setPieChartData([])
+            setRadarChartData([])
+        }
     },[currentDateRange])
 
     useEffect(() => {
@@ -224,7 +230,9 @@ export default function ThemeItem(){
     }
 
     const onChange = (values) => {
-        setCurrentDateRange(values)
+        if(!values || values.every(item => item !== null)){
+            setCurrentDateRange(values)
+        }
     }
 
     const onCommentSelect = (e) => {
@@ -292,10 +300,11 @@ export default function ThemeItem(){
                             <div className='themeItem_right_bar_calendar_wrapper'>
                                 <RangePicker
                                     locale={language === 'ru' ? localeRu : localeKz}
-                                    onChange={(values) => onChange(values)}
-                                    value={currentDateRange}
+                                    onCalendarChange={(values) => onChange(values)}
+                                    defaultValue={currentDateRange}
                                     size={'large'}
                                     className='themeItem_calendar'
+                                    picker={'month'}
                                 />
                             </div>
                         </div>
@@ -685,7 +694,7 @@ function RadarChartToolTip({active, payload}){
 
     const language = useStore(state => state.language)
 
-    if(active && payload.length > 0){
+    if(active && payload && payload.length > 0){
         return (
             <div className='chart_tooltip'>
                 <div className='chart_tooltip_text'>{payload[0].payload.name + ': ' + payload[0].value}</div>

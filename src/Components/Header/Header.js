@@ -31,9 +31,9 @@ export default function Header(){
             <div className='container'>
                 <div className='header_wrapper'>
                     <div className='header_logo_wrapper'>
-                        <img src={logo} className='header_logo' alt='logo'/>
+                        {/*<img src={logo} className='header_logo' alt='logo'/>*/}
                         <div className='header_logo_title'>
-                            Lorem ipsum
+                            SCAN
                         </div>
                     </div>
                     <ul className='header_menu'>
