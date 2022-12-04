@@ -70,9 +70,14 @@ export default function ThemeItem(){
 
     const comments_source = useStore(state => state.comment_data)
 
+    const changeMonth = useStore(state => state.changeMonth)
+
     const [activeTab, setActiveTab] = useState(0)
 
-    const [currentDateRange, setCurrentDateRange] = useState([dayjs(new Date()), dayjs(new Date()).add(1, 'month')])
+    const [currentDateRange, setCurrentDateRange] = useState([
+        dayjs(new Date()).set('date', 1),
+        dayjs(new Date()).set('date', 1).add(1, 'month').subtract(1, 'day')
+    ])
 
     const [content_comments, setContentComments] = useState(comments_source)
 
@@ -253,6 +258,18 @@ export default function ThemeItem(){
         }
     }
 
+    const onChangeTwo = (value) => {
+        changeMonth(dayjs(value).get('month'))
+        if(value){
+            setCurrentDateRange([
+                dayjs(value).set('date', 1),
+                dayjs(value).set('date', 1).add(1, 'month').subtract(1, 'day')
+            ])
+        } else {
+            setCurrentDateRange(null)
+        }
+    }
+
     return (
         <div className='themeItem'>
             <Header/>
@@ -298,13 +315,21 @@ export default function ThemeItem(){
                                 }
                             </h1>
                             <div className='themeItem_right_bar_calendar_wrapper'>
-                                <RangePicker
+                                {/*<RangePicker*/}
+                                {/*    locale={language === 'ru' ? localeRu : localeKz}*/}
+                                {/*    onCalendarChange={(values) => onChange(values)}*/}
+                                {/*    defaultValue={currentDateRange}*/}
+                                {/*    size={'large'}*/}
+                                {/*    className='themeItem_calendar'*/}
+                                {/*    picker={'month'}*/}
+                                {/*/>*/}
+                                <DatePicker
                                     locale={language === 'ru' ? localeRu : localeKz}
-                                    onCalendarChange={(values) => onChange(values)}
-                                    defaultValue={currentDateRange}
-                                    size={'large'}
+                                    defaultValue={currentDateRange ? currentDateRange[0] : null}
+                                    onChange={onChangeTwo}
+                                    size='large'
                                     className='themeItem_calendar'
-                                    picker={'month'}
+                                    picker='month'
                                 />
                             </div>
                         </div>
@@ -615,9 +640,9 @@ function CommentComponent(props){
                             text
                         }
                     </div>
-                    <a href={link} style={{color: '#4870b7', textDecoration:'none', display: 'block', marginTop: '10px'}}>{
-                        ru_kz_dict.show_full[language]
-                    }</a>
+                    {/*<a href={link} style={{color: '#4870b7', textDecoration:'none', display: 'block', marginTop: '10px'}}>{*/}
+                    {/*    ru_kz_dict.show_full[language]*/}
+                    {/*}</a>*/}
                     <div className='themeItem_comment_body_bottom_text'> {
                         ru_kz_dict.edit[language]
                     }</div>

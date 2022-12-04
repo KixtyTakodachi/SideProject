@@ -2,6 +2,8 @@ import create from 'zustand'
 import {ru_kz_dict} from "../dictionaries/ru_kz_dict";
 import comment_avatar from "../img/comment_avatar.svg";
 import comment_img from "../img/comment_img.png";
+import dayjs from "dayjs";
+import {months_dict} from "../dictionaries/months_dict";
 
 export const useStore = create((set) => ({
     language: "ru",
@@ -64,7 +66,7 @@ export const useStore = create((set) => ({
     active_theme: 'telemed',
     comment_data: [
         {
-            id: 1,
+            id: 'comment_1_telemed',
             name: 'Test test ' + 1,
             avatar: comment_avatar,
             author_audience: 0,
@@ -80,7 +82,7 @@ export const useStore = create((set) => ({
             favourite: false,
         },
         {
-            id: 2,
+            id: 'comment_2_telemed',
             name: 'Test test ' + 2,
             avatar: comment_avatar,
             author_audience: 0,
@@ -96,7 +98,7 @@ export const useStore = create((set) => ({
             favourite: false,
         },
         {
-            id: 3,
+            id: 'comment_3_telemed',
             name: 'Test test ' + 3,
             avatar: comment_avatar,
             author_audience: 0,
@@ -112,7 +114,7 @@ export const useStore = create((set) => ({
             favourite: false,
         },
         {
-            id: 4,
+            id: 'comment_4_telemed',
             name: 'Test test ' + 4,
             avatar: comment_avatar,
             author_audience: 0,
@@ -128,7 +130,7 @@ export const useStore = create((set) => ({
             favourite: false,
         },
         {
-            id: 5,
+            id: 'comment_5_telemed',
             name: 'Test test ' + 5,
             avatar: comment_avatar,
             author_audience: 0,
@@ -144,7 +146,7 @@ export const useStore = create((set) => ({
             favourite: false,
         },
         {
-            id: 6,
+            id: 'comment_6_telemed',
             name: 'Test test ' + 6,
             avatar: comment_avatar,
             author_audience: 0,
@@ -160,7 +162,7 @@ export const useStore = create((set) => ({
             favourite: false,
         },
         {
-            id: 7,
+            id: 'comment_7_telemed',
             name: 'Test test ' + 7,
             avatar: comment_avatar,
             author_audience: 0,
@@ -176,7 +178,7 @@ export const useStore = create((set) => ({
             favourite: false,
         },
         {
-            id: 8,
+            id: 'comment_8_telemed',
             name: 'Test test ' + 8,
             avatar: comment_avatar,
             author_audience: 0,
@@ -192,7 +194,7 @@ export const useStore = create((set) => ({
             favourite: false,
         },
         {
-            id: 9,
+            id: 'comment_9_telemed',
             name: 'Test test ' + 9,
             avatar: comment_avatar,
             author_audience: 0,
@@ -245,5 +247,11 @@ export const useStore = create((set) => ({
             comment_data: [...state.comment_data.slice(0, index), comment, ...state.comment_data.slice(index + 1)]
         }
 
+    }),
+    active_month: months_dict[dayjs(new Date()).get('month')],
+    changeMonth: (id) => set((state) => {
+        return{
+            active_month: months_dict[id]
+        }
     })
 }))

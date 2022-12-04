@@ -1,6 +1,7 @@
 import React from 'react'
 import {useStore} from "../../store/store";
 import './Footer.scss'
+import {ru_kz_dict} from "../../dictionaries/ru_kz_dict";
 
 export default function Footer() {
 
@@ -16,14 +17,11 @@ export default function Footer() {
                 <div className='footer_wrapper'>
                     <div className='footer_support' onClick={supportRedir}>
                         {
-                            language === 'Ru' ?
-                                'Написать в техподдержку'
-                                :
-                                'Техникалық қолдау қызметіне жазыңыз'
+                            ru_kz_dict.tech_sup[language]
                         }
                     </div>
                     <div className='footer_copyright'>
-                        ©2022 Lorem Ipsum
+                        ©2022 SCAN
                     </div>
                 </div>
             </div>
