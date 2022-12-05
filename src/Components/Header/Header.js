@@ -54,7 +54,7 @@ export default function Header(){
                             <div className='header_user_img_wrapper'>
                                 <img src={avatar} className='header_user_img' alt='avatar'/>
                             </div>
-                            <div className='header_user_login'>Test@gmail.com</div>
+                            <div className='header_user_login'>16goncharova@gmail.com</div>
                             <div className='header_user_menu_button' onClick={() => {setIsMenuOpen(!isMenuOpen)}}></div>
                             <ul className={['header_user_menu', isMenuOpen ? 'active' : ''].join(' ')}>
                                 <div className='header_user_name'>
