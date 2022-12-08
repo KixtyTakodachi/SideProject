@@ -64,13 +64,19 @@ import {themes_dict} from "../../dictionaries/themes_dict";
 
 const { RangePicker } = DatePicker
 
+const disabledDate = (current) => {
+    const start = dayjs(new Date('2022-09-01'))
+    const end = dayjs(new Date('2023-12-01'))
+    return (current && current < start.endOf('month')) || (current && current > end.endOf('month')) ;
+}
+
 export default function ThemeItem(){
 
     const language = useStore(state => state.language)
 
     const comments_source = useStore(state => state.comment_data)
 
-    const changeMonth = useStore(state => state.changeMonth)
+    const changeMonthYear = useStore(state => state.changeMonthYear)
 
     const [activeTab, setActiveTab] = useState(0)
 
@@ -139,15 +145,19 @@ export default function ThemeItem(){
             setPieChartData([])
             setRadarChartData([])
         }
-    },[currentDateRange])
+    },[currentDateRange, JSON.stringify(comments_source)])
 
     useEffect(() => {
         setContentComments(comments_source)
     }, [JSON.stringify(comments_source)])
 
+    useEffect(() => () => changeMonthYear(`${dayjs(new Date()).get('month') + 1}_${dayjs(new Date()).get('year')}`),[])
+
     const dataSource = useStore(state => state.dataSource)
 
     const active_theme = useStore(state => state.active_theme)
+
+    const changeActiveTheme = useStore(state => state.changeActiveTheme)
 
     const select_options = dataSource.map(item => {
         return {
@@ -226,7 +236,7 @@ export default function ThemeItem(){
     }
 
     const onSelectChange = (value) => {
-        console.log('selected value', value)
+        changeActiveTheme(value)
     }
 
     const menuClick = (id) => {
@@ -259,7 +269,7 @@ export default function ThemeItem(){
     }
 
     const onChangeTwo = (value) => {
-        changeMonth(dayjs(value).get('month'))
+        changeMonthYear(`${dayjs(value).get('month') + 1}_${dayjs(value).get('year')}`)
         if(value){
             setCurrentDateRange([
                 dayjs(value).set('date', 1),
@@ -324,6 +334,7 @@ export default function ThemeItem(){
                                 {/*    picker={'month'}*/}
                                 {/*/>*/}
                                 <DatePicker
+                                    disabledDate={disabledDate}
                                     locale={language === 'ru' ? localeRu : localeKz}
                                     defaultValue={currentDateRange ? currentDateRange[0] : null}
                                     onChange={onChangeTwo}

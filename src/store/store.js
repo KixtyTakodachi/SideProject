@@ -3,17 +3,16 @@ import {ru_kz_dict} from "../dictionaries/ru_kz_dict";
 import comment_avatar from "../img/comment_avatar.svg";
 import comment_img from "../img/comment_img.png";
 import dayjs from "dayjs";
-import {months_dict} from "../dictionaries/months_dict";
 
 export const useStore = create((set) => ({
     language: "ru",
     changeLanguage: (lang) => set((state) => {
         if(state.comment_data.length > 0){
             return {
-                comment_data: state.comment_data.map(item => {
+                comment_data: state.comment_data.map((item, index) => {
                     return {
                         ...item,
-                        text: ru_kz_dict[item.id][lang]
+                        text: ru_kz_dict[`${item.id}`][index][lang]
                     }
                 }),
                 language: lang
@@ -66,7 +65,7 @@ export const useStore = create((set) => ({
     active_theme: 'telemed',
     comment_data: [
         {
-            id: 'comment_1_telemed',
+            id: 'comment_telemed_12_2022',
             name: 'Test test ' + 1,
             avatar: comment_avatar,
             author_audience: 0,
@@ -77,12 +76,12 @@ export const useStore = create((set) => ({
             link: 'https://vk.com',
             message_type: 'Коммент' ,
             date: '01.05.2022',
-            text: ru_kz_dict.comment_1_telemed.ru,
+            text: ru_kz_dict.comment_telemed_12_2022[0].ru,
             picture: comment_img,
             favourite: false,
         },
         {
-            id: 'comment_2_telemed',
+            id: 'comment_telemed_12_2022',
             name: 'Test test ' + 2,
             avatar: comment_avatar,
             author_audience: 0,
@@ -93,130 +92,16 @@ export const useStore = create((set) => ({
             link: 'https://vk.com',
             message_type: 'Коммент' ,
             date: '01.05.2022',
-            text: ru_kz_dict.comment_2_telemed.ru,
+            text: ru_kz_dict.comment_telemed_12_2022[1].ru,
             picture: comment_img,
             favourite: false,
         },
-        {
-            id: 'comment_3_telemed',
-            name: 'Test test ' + 3,
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Коммент' ,
-            date: '01.05.2022',
-            text: ru_kz_dict.comment_3_telemed.ru,
-            picture: comment_img,
-            favourite: false,
-        },
-        {
-            id: 'comment_4_telemed',
-            name: 'Test test ' + 4,
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Коммент' ,
-            date: '01.05.2022',
-            text: ru_kz_dict.comment_4_telemed.ru,
-            picture: comment_img,
-            favourite: false,
-        },
-        {
-            id: 'comment_5_telemed',
-            name: 'Test test ' + 5,
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Коммент' ,
-            date: '01.05.2022',
-            text: ru_kz_dict.comment_5_telemed.ru,
-            picture: comment_img,
-            favourite: false,
-        },
-        {
-            id: 'comment_6_telemed',
-            name: 'Test test ' + 6,
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Коммент' ,
-            date: '01.05.2022',
-            text: ru_kz_dict.comment_6_telemed.ru,
-            picture: comment_img,
-            favourite: false,
-        },
-        {
-            id: 'comment_7_telemed',
-            name: 'Test test ' + 7,
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Коммент' ,
-            date: '01.05.2022',
-            text: ru_kz_dict.comment_7_telemed.ru,
-            picture: comment_img,
-            favourite: false,
-        },
-        {
-            id: 'comment_8_telemed',
-            name: 'Test test ' + 8,
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Коммент' ,
-            date: '01.05.2022',
-            text: ru_kz_dict.comment_8_telemed.ru,
-            picture: comment_img,
-            favourite: false,
-        },
-        {
-            id: 'comment_9_telemed',
-            name: 'Test test ' + 9,
-            avatar: comment_avatar,
-            author_audience: 0,
-            public_source: '',
-            public_source_link: '',
-            public_audience: 0,
-            social_media: 'vk.com',
-            link: 'https://vk.com',
-            message_type: 'Коммент' ,
-            date: '01.05.2022',
-            text: ru_kz_dict.comment_9_telemed.ru,
-            picture: comment_img,
-            favourite: false,
-        }
     ],
     changeActiveTheme: (id) => set((state) => {
-        const tempCommentData = []
-        const comments = Object.keys(ru_kz_dict).filter(item => item.includes(id))
-        for(let i = 0; i < comments.length ; i++){
-            tempCommentData.push({
-                id: comments[i],
-                name: 'Test test ' + i,
+        const comments = ru_kz_dict[`comment_${id}_${state.active_month_year}`].map((item, index) => {
+            return {
+                id: `comment_${id}_${state.active_month_year}`,
+                name: 'Test test ' + index,
                 avatar: comment_avatar,
                 author_audience: 0,
                 public_source: '',
@@ -226,13 +111,13 @@ export const useStore = create((set) => ({
                 link: 'https://vk.com',
                 message_type: 'Коммент' ,
                 date: '01.05.2022',
-                text: ru_kz_dict[comments[i]][state.language],
+                text: item[state.language],
                 picture: comment_img,
                 favourite: false,
-            })
-        }
+            }
+        })
         return {
-            comment_data: tempCommentData,
+            comment_data: comments,
             active_theme: id,
         }
     }),
@@ -248,10 +133,17 @@ export const useStore = create((set) => ({
         }
 
     }),
-    active_month: months_dict[dayjs(new Date()).get('month')],
-    changeMonth: (id) => set((state) => {
+    active_month_year: `${dayjs(new Date()).get('month') + 1}_${dayjs(new Date()).get('year')}`,
+    changeMonthYear: (date) => set((state) => {
         return{
-            active_month: months_dict[id]
+            active_month_year: date,
+            comment_data: state.comment_data.map((item,index) => {
+                return{
+                    ...item,
+                    id: `comment_${state.active_theme}_${date}`,
+                    text: ru_kz_dict[`comment_${state.active_theme}_${date}`][index][state.language]
+                }
+            })
         }
     })
 }))
