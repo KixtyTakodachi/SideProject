@@ -12,7 +12,6 @@ import {themes_dict} from "../../dictionaries/themes_dict";
 export default function Themes(){
 
     const active_month_year = useStore(state => state.active_month_year)
-    console.log(active_month_year)
 
     const dataSource = useStore(state => state.dataSource)
 
