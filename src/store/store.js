@@ -145,5 +145,25 @@ export const useStore = create((set) => ({
                 }
             })
         }
-    })
+    }),
+    themeData: {},
+    leftBarTab: '0',
+    changeLeftBarTab: (id) => set((state) => {
+        return {
+            leftBarTab: id,
+        }
+    }),
+    getThemeData: async () => {
+        const response = await fetch('https://scananalytics.kz/index.php?id=2',{
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+                'Content-type': 'text/html'
+            }
+        }).then(resp => {
+            console.log(resp);
+            return resp.text()
+        })
+        set({ themeData: response })
+    },
 }))

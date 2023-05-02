@@ -300,3 +300,14 @@
 .themeItem_calendar{
   font-size: 24px;
 }
+
+.chart_wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.chart_title{
+  margin: 0 0 20px 40px ;
+  font-size: 22px;
+  font-weight: 500;
+}

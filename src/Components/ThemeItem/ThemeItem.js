@@ -3,21 +3,6 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer"
 import {useStore} from "../../store/store";
 import {
-    PlusSquareOutlined,
-    AppstoreOutlined,
-    DeploymentUnitOutlined,
-    HighlightOutlined,
-    TeamOutlined,
-    EnvironmentOutlined,
-    TagOutlined,
-    MessageOutlined,
-    LinkOutlined,
-    UserOutlined,
-    AuditOutlined,
-    SendOutlined,
-    DeleteOutlined,
-    StarOutlined,
-    StarFilled,
     CheckOutlined,
     BookOutlined,
     MehFilled,
@@ -26,7 +11,6 @@ import {
     DeleteFilled,
     PlusOutlined,
 } from "@ant-design/icons"
-import { Select } from "antd";
 import { DatePicker } from "antd"
 import { Checkbox} from "antd";
 import "dayjs/locale/ru"
@@ -34,33 +18,17 @@ import "dayjs/locale/kk"
 import { default as localeKz } from 'antd/es/date-picker/locale/kk_KZ'
 import { default as localeRu } from 'antd/es/date-picker/locale/ru_RU'
 import dayjs from "dayjs";
-import comment_avatar from '../../img/comment_avatar.svg'
 import facebook from '../../img/facebook.png'
 import vk from '../../img/vk.png'
 import ok from '../../img/ok.png'
 import dzen from '../../img/dzen.png'
-import comment_img from '../../img/comment_img.png'
-import {
-    LineChart,
-    Line,
-    CartesianGrid,
-    XAxis,
-    YAxis,
-    Tooltip,
-    BarChart,
-    Bar,
-    PieChart,
-    Pie,
-    Cell,
-    RadarChart,
-    Radar,
-    PolarGrid,
-    PolarAngleAxis,
-    PolarRadiusAxis,
-} from 'recharts'
 import "./ThemeItem.scss"
 import {ru_kz_dict} from "../../dictionaries/ru_kz_dict";
-import {themes_dict} from "../../dictionaries/themes_dict";
+import LineChartComponent from "../Charts/LineChartComponent";
+import PieChartComponent from "../Charts/PieChartComponent";
+import LeftBar from "../LeftBar/LeftBar";
+import {left_bar_dictionary} from "../../dictionaries/left_bar_dictionary";
+import ChartsManager from "../Charts/ChartsManager";
 
 const { RangePicker } = DatePicker
 
@@ -73,26 +41,20 @@ const disabledDate = (current) => {
 export default function ThemeItem(){
 
     const language = useStore(state => state.language)
-
     const comments_source = useStore(state => state.comment_data)
-
     const changeMonthYear = useStore(state => state.changeMonthYear)
-
-    const [activeTab, setActiveTab] = useState(0)
+    const callThemeData = useStore(state => state.getThemeData)
+    const themeData = useStore(state => state.themeData)
+    const leftBarTab = useStore(state => state.leftBarTab)
 
     const [currentDateRange, setCurrentDateRange] = useState([
         dayjs(new Date()).set('date', 1),
         dayjs(new Date()).set('date', 1).add(1, 'month').subtract(1, 'day')
     ])
-
     const [content_comments, setContentComments] = useState(comments_source)
-
     const [chartData, setChartData] = useState([])
-
     const [pieChartData, setPieChartData] = useState([])
-
     const [radarChartData, setRadarChartData] = useState([])
-
     const [legendsFilter, setLegendsFilter] = useState([])
 
     useEffect(() => {
@@ -146,103 +108,13 @@ export default function ThemeItem(){
             setRadarChartData([])
         }
     },[currentDateRange, JSON.stringify(comments_source)])
-
     useEffect(() => {
         setContentComments(comments_source)
     }, [JSON.stringify(comments_source)])
-
     useEffect(() => () => changeMonthYear(`${dayjs(new Date()).get('month') + 1}_${dayjs(new Date()).get('year')}`),[])
-
-    const dataSource = useStore(state => state.dataSource)
-
-    const active_theme = useStore(state => state.active_theme)
-
-    const changeActiveTheme = useStore(state => state.changeActiveTheme)
-
-    const select_options = dataSource.map(item => {
-        return {
-            value: themes_dict[item.name],
-            label: item.name
-        }
-    })
-
-    const left_bar_menu = [
-        {
-            id: 0,
-            name: ru_kz_dict.otchet[language],
-            icon: <AppstoreOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 1,
-            name: ru_kz_dict.sources[language],
-            icon: <DeploymentUnitOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 2,
-            name: ru_kz_dict.authors[language],
-            icon: <HighlightOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 3,
-            name: ru_kz_dict.community[language],
-            icon: <TeamOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 4,
-            name: ru_kz_dict.geography[language],
-            icon: <EnvironmentOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 5,
-            name: ru_kz_dict.tegs[language],
-            icon: <TagOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 6,
-            name: ru_kz_dict.popular_words[language],
-            icon: <MessageOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 7,
-            name: ru_kz_dict.links[language],
-            icon: <LinkOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 8,
-            name: ru_kz_dict.persons[language],
-            icon: <UserOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 9,
-            name: ru_kz_dict.ur_faces[language],
-            icon: <AuditOutlined style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 10,
-            name: ru_kz_dict.places[language],
-            icon: <SendOutlined rotate={-45} style={{marginRight:'10px'}}/>,
-        },
-        {
-            id: 11,
-            name: ru_kz_dict.basket[language],
-            icon: <DeleteOutlined style={{marginRight:'10px'}}/>,
-        },
-    ]
-
-    const pie_colors = {
-        mentions: '#8fc144',
-        negative: '#cf6662',
-        positive: '#4779d0',
-    }
-
-    const onSelectChange = (value) => {
-        changeActiveTheme(value)
-    }
-
-    const menuClick = (id) => {
-        setActiveTab(id)
-        console.log('menu item clicked id', id)
-    }
+    useEffect(() => {
+        callThemeData()
+    }, [])
 
     const onChange = (values) => {
         if(!values || values.every(item => item !== null)){
@@ -285,43 +157,12 @@ export default function ThemeItem(){
             <Header/>
             <div className='container'>
                 <div className='themeItem_wrapper'>
-                    <div className='themeItem_left_bar'>
-                        <div style={{display: 'flex', alignItems: 'center', marginLeft: '20px'}}>
-                            <h1 className='themeItem_left_bar_title'>{ru_kz_dict.temi[language]}</h1>
-                            <div className='themeItem_left_bar_button'>
-                                <PlusSquareOutlined />
-                            </div>
-                        </div>
-                        <Select
-                            className='themeItem_left_bar_select'
-                            defaultValue={active_theme || 0}
-                            showSearch
-                            onChange={onSelectChange}
-                            options={select_options}
-                        />
-                        <ul className='themeItem_left_bar_menu'>
-                            {
-                                left_bar_menu.map(item => {
-                                    return <li
-                                        key={item.id}
-                                        className={[
-                                            'themeItem_left_bar_menu_item',
-                                            activeTab === item.id ? 'menu_active_item' : ''
-                                        ].join(' ')}
-                                        onClick={() => menuClick(item.id, item.name)}
-                                    >
-                                        {item.icon}
-                                        {item.name}
-                                    </li>
-                                })
-                            }
-                        </ul>
-                    </div>
+                    <LeftBar />
                     <div className='themeItem_content'>
                         <div className='themeItem_content_title_wrapper'>
                             <h1 className='themeItem_content_title'>
                                 {
-                                    left_bar_menu.find(item => item.id === activeTab).name
+                                    left_bar_dictionary[language][leftBarTab]
                                 }
                             </h1>
                             <div className='themeItem_right_bar_calendar_wrapper'>
@@ -345,115 +186,46 @@ export default function ThemeItem(){
                             </div>
                         </div>
                         <div className='themeItem_content_chart'>
-                            <LineChart width={642} height={200} data={chartData}>
-                                {
-                                    !legendsFilter.includes('positive') ?
-                                        <Line type={'monotone'} dataKey={'positive'} stroke={'#8fc144'}/>
-                                        :
-                                        ''
-                                }
-                                {
-                                    !legendsFilter.includes('mentions') ?
-                                        <Line type={'monotone'} dataKey={'mentions'} stroke={'#4779d0'}/>
-                                        :
-                                        ''
-                                }
-                                {
-                                    !legendsFilter.includes('negative') ?
-                                        <Line type={'monotone'} dataKey={'negative'} stroke={'#cf6662'}/>
-                                        :
-                                        ''
-                                }
-                                <CartesianGrid stroke={'#b6b6b6'}/>
-                                <XAxis dataKey={'date'}/>
-                                <YAxis />
-                                <Tooltip content={<CustomChartToolTip />}/>
-                            </LineChart>
-                            <BarChart width={642} height={200} data={chartData}>
-                                {
-                                    !legendsFilter.includes('positive') ?
-                                        <Bar type={'monotone'} dataKey={'positive'} fill={'#8fc144'}/>
-                                        :
-                                        ''
-                                }
-                                {
-                                    !legendsFilter.includes('mentions') ?
-                                        <Bar type={'monotone'} dataKey={'mentions'} fill={'#4779d0'}/>
-                                        :
-                                        ''
-                                }
-                                {
-                                    !legendsFilter.includes('negative') ?
-                                        <Bar type={'monotone'} dataKey={'negative'} fill={'#cf6662'}/>
-                                        :
-                                        ''
-                                }
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey={'date'}/>
-                                <YAxis />
-                                <Tooltip content={<CustomChartToolTip />}/>
-                            </BarChart>
-                            <PieChart width={642} height={230}>
-                                <Pie
-                                    dataKey='value'
-                                    isAnimationActive
-                                    data={pieChartData}
-                                    cx={'50%'}
-                                    cy={'50%'}
-                                    fill={'#8884d8'}
-                                    label
-                                >
-                                    {
-                                        pieChartData.map((entry, index) => {
-                                            return(
-                                                <Cell key={`cell_${index}`} fill={pie_colors[entry.name]}/>
-                                            )
-                                        })
-                                    }
-                                </Pie>
-                                <Tooltip content={<PieChartToolTip />}/>
-                            </PieChart>
-                            <RadarChart width={642} height={230} data={radarChartData}>
-                                <PolarGrid/>
-                                <PolarAngleAxis dataKey={'name'}/>
-                                <PolarRadiusAxis angle={30} domain={[0, 310]}/>
-                                <Radar dataKey={'value'} stroke={'#4779d0'} fill={'#4779d0'} opacity={0.6}/>
-                                <Tooltip content={<RadarChartToolTip />}/>
-                            </RadarChart>
-                            <div className='themeItem_content_chart_lagends_wrapper'>
-                                <div
-                                    className={[
-                                        'themeItem_content_chart_lagends_item',
-                                        legendsFilter.includes('positive') ?
-                                            'legend_off' : ''
-                                    ].join(' ')}
-                                    onClick={() => filterChart('positive')}>
-                                    <div className='round' style={{background:'#8fc144'}}></div>
-                                    {
-                                        ru_kz_dict.count_upominaniy[language]
-                                    }
-                                </div>
-                                <div
-                                    className={[
-                                        'themeItem_content_chart_lagends_item',
-                                        legendsFilter.includes('mentions') ?
-                                            'legend_off' : ''
-                                    ].join(' ')}
-                                    onClick={() => filterChart('mentions')}>
-                                    <div className='round' style={{background:'#4779d0'}}></div>
-                                    Позитив
-                                </div>
-                                <div
-                                    className={[
-                                        'themeItem_content_chart_lagends_item',
-                                        legendsFilter.includes('negative') ?
-                                            'legend_off' : ''
-                                    ].join(' ')}
-                                    onClick={() => filterChart('negative')}>
-                                    <div className='round' style={{background:'#cf6662'}}></div>
-                                    Негатив
-                                </div>
-                            </div>
+                            <ChartsManager
+                              activeTab={leftBarTab}
+                              chartData={chartData}
+                              pieChartData={pieChartData}
+                              legendsFilter={legendsFilter}
+                            />
+                            {/*<div className='themeItem_content_chart_lagends_wrapper'>*/}
+                            {/*    <div*/}
+                            {/*        className={[*/}
+                            {/*            'themeItem_content_chart_lagends_item',*/}
+                            {/*            legendsFilter.includes('positive') ?*/}
+                            {/*                'legend_off' : ''*/}
+                            {/*        ].join(' ')}*/}
+                            {/*        onClick={() => filterChart('positive')}>*/}
+                            {/*        <div className='round' style={{background:'#8fc144'}}></div>*/}
+                            {/*        {*/}
+                            {/*            ru_kz_dict.count_upominaniy[language]*/}
+                            {/*        }*/}
+                            {/*    </div>*/}
+                            {/*    <div*/}
+                            {/*        className={[*/}
+                            {/*            'themeItem_content_chart_lagends_item',*/}
+                            {/*            legendsFilter.includes('mentions') ?*/}
+                            {/*                'legend_off' : ''*/}
+                            {/*        ].join(' ')}*/}
+                            {/*        onClick={() => filterChart('mentions')}>*/}
+                            {/*        <div className='round' style={{background:'#4779d0'}}></div>*/}
+                            {/*        Позитив*/}
+                            {/*    </div>*/}
+                            {/*    <div*/}
+                            {/*        className={[*/}
+                            {/*            'themeItem_content_chart_lagends_item',*/}
+                            {/*            legendsFilter.includes('negative') ?*/}
+                            {/*                'legend_off' : ''*/}
+                            {/*        ].join(' ')}*/}
+                            {/*        onClick={() => filterChart('negative')}>*/}
+                            {/*        <div className='round' style={{background:'#cf6662'}}></div>*/}
+                            {/*        Негатив*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
                         </div>
                         <div className='themeItem_content_comments_wrapper'>
                             {
@@ -665,76 +437,4 @@ function CommentComponent(props){
             </div>
         </div>
     )
-}
-
-function CustomChartToolTip({active, payload, label}){
-
-    const language = useStore(state => state.language)
-
-    if(active && payload && payload.length > 0){
-        const tooltip_dict = {
-            negative: 'Негатив',
-            positive: 'Позитив',
-            mentions: ru_kz_dict.count_upominaniy[language],
-        }
-        return (
-            <div className='chart_tooltip'>
-                <div className='chart_tooltip_text'>{(language === 'Ru' ? 'Дата: ' : 'Күні: ') + label}</div>
-                {
-                    payload[1] ?
-                        <div className='chart_tooltip_text'>{tooltip_dict[payload[1].name] + ': ' + payload[1].value}</div>
-                    :
-                        ''
-                }
-                {
-                    payload[0] ?
-                        <div className='chart_tooltip_text'>{tooltip_dict[payload[0].name] + ': ' + payload[0].value}</div>
-                    :
-                        ''
-                }
-                {
-                    payload[2] ?
-                        <div className='chart_tooltip_text'>{tooltip_dict[payload[2].name] + ': ' + payload[2].value}</div>
-                    :
-                        ''
-                }
-            </div>
-        )
-    }
-}
-
-function PieChartToolTip({active, payload}){
-
-    const language = useStore(state => state.language)
-
-    if(active && payload && payload.length > 0){
-        const tooltip_dict = {
-            negative: 'Негатив',
-            positive: 'Позитив',
-            mentions: ru_kz_dict.count_upominaniy[language],
-        }
-        return (
-            <div className='chart_tooltip'>
-                {
-                    payload[0] ?
-                        <div className='chart_tooltip_text'>{tooltip_dict[payload[0].name] + ': ' + payload[0].value}</div>
-                        :
-                        ''
-                }
-            </div>
-        )
-    }
-}
-
-function RadarChartToolTip({active, payload}){
-
-    const language = useStore(state => state.language)
-
-    if(active && payload && payload.length > 0){
-        return (
-            <div className='chart_tooltip'>
-                <div className='chart_tooltip_text'>{payload[0].payload.name + ': ' + payload[0].value}</div>
-            </div>
-        )
-    }
 }
