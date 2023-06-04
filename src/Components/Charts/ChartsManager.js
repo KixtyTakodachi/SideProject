@@ -10,7 +10,18 @@ import {
 
 function ChartsManager(props) {
 	const { activeTab, chartData, pieChartData, legendsFilter } = props
-	const chartDataByTab = chartData[tab_line_data_dictionary[activeTab]]
+	let chartDataByTab = chartData[tab_line_data_dictionary[activeTab]]
+	if (chartDataByTab) {
+		chartDataByTab = chartDataByTab.map((item) => {
+			return {
+				...item,
+				count_authors: +item.count_authors,
+				count_mentions: +item.count_mentions,
+				sum_audience: +item.sum_audience,
+				sum_er: +item.sum_er,
+			}
+		})
+	}
 	let pieChartDataByTab = chartData[tab_pie_data_dictionary[activeTab]]
 	switch (activeTab) {
 		case '0': {
