@@ -1,6 +1,6 @@
 import React from 'react'
 import '../ThemeItem/ThemeItem.scss'
-import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import CustomChartToolTip from './ToolTips/CustomChartToolTip'
 import { charts_colors } from '../../global_vars'
 
@@ -43,6 +43,7 @@ function LineChartComponent(props) {
 			<XAxis dataKey={XAxisKey} />
 			<YAxis />
 			<Tooltip content={<CustomChartToolTip />} />
+			<Legend verticalAlign="bottom" height={36} />
 		</LineChart>
 	)
 }

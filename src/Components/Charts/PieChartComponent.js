@@ -1,12 +1,7 @@
 import React from 'react'
-import { Cell, Pie, PieChart, Tooltip } from 'recharts'
+import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts'
 import PieChartToolTip from './ToolTips/PieChartToolTip'
-
-const pie_colors = {
-	positive: '#8fc144',
-	negative: '#cf6662',
-	neitral: '#4779d0',
-}
+import { charts_colors } from '../../global_vars'
 
 function PieChartComponent(props) {
 	const { pieChartData } = props
@@ -22,10 +17,11 @@ function PieChartComponent(props) {
 				label
 			>
 				{pieChartData.map((entry, index) => {
-					return <Cell key={`cell_${index}`} fill={pie_colors[entry.name]} />
+					return <Cell key={`cell_${index}`} fill={charts_colors[index]} />
 				})}
 			</Pie>
 			<Tooltip content={<PieChartToolTip />} />
+			<Legend verticalAlign="bottom" height={36} />
 		</PieChart>
 	)
 }

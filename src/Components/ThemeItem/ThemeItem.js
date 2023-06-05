@@ -26,7 +26,7 @@ import './ThemeItem.scss'
 import { ru_kz_dict } from '../../dictionaries/ru_kz_dict'
 import LeftBar from '../LeftBar/LeftBar'
 import { left_bar_dictionary } from '../../dictionaries/left_bar_dictionary'
-import ChartsManager from '../Charts/ChartsManager'
+import ContentManager from '../Charts/ContentManager'
 import { date_format } from '../../global_vars'
 import Loader from '../Loader/Loader'
 
@@ -129,45 +129,38 @@ export default function ThemeItem() {
 								/>
 							</div>
 						</div>
-						{leftBarTab !== '1' ? (
-							<div className="themeItem_content_chart">
-								<ChartsManager
-									activeTab={leftBarTab}
-									chartData={themeData}
-									legendsFilter={legendsFilter}
-								/>
-							</div>
-						) : (
-							<div className="themeItem_content_comments_wrapper">
-								test
-								{themeData?.raw_data.map((item, index) => {
-									return (
-										<CommentComponent
-											key={`comment ${index}`}
-											data={item}
-
-											// name={item.author_fullname}
-											// avatar={item.avatar}
-											// author_audience={item.audienceCount}
-											// public_source={item.public_source}
-											// public_source_link={item.public_source_link}
-											// public_audience={item.public_audience}
-											// social_media={item.social_media}
-											// link={item.link}
-											// message_type={item.message_type}
-											// date={item.date}
-											// text={item.text}
-											// picture={item.picture}
-											// onChange={onCommentSelect}
-											// favourite={item.favourite}
-											// toggleFavourite={toggleFavourite}
-											// actionClick={actionClick}
-											// id={item.id}
-										/>
-									)
-								})}
-							</div>
-						)}
+						<ContentManager
+							activeTab={leftBarTab}
+							chartData={themeData}
+							legendsFilter={legendsFilter}
+						/>
+						{/*<div>*/}
+						{/*{themeData?.raw_data.map((item, index) => {*/}
+						{/*	return (*/}
+						{/*		<CommentComponent*/}
+						{/*			key={`comment ${index}`}*/}
+						{/*			data={item}*/}
+						{/*			// name={item.author_fullname}*/}
+						{/*			// avatar={item.avatar}*/}
+						{/*			// author_audience={item.audienceCount}*/}
+						{/*			// public_source={item.public_source}*/}
+						{/*			// public_source_link={item.public_source_link}*/}
+						{/*			// public_audience={item.public_audience}*/}
+						{/*			// social_media={item.social_media}*/}
+						{/*			// link={item.link}*/}
+						{/*			// message_type={item.message_type}*/}
+						{/*			// date={item.date}*/}
+						{/*			// text={item.text}*/}
+						{/*			// picture={item.picture}*/}
+						{/*			// onChange={onCommentSelect}*/}
+						{/*			// favourite={item.favourite}*/}
+						{/*			// toggleFavourite={toggleFavourite}*/}
+						{/*			// actionClick={actionClick}*/}
+						{/*			// id={item.id}*/}
+						{/*		/>*/}
+						{/*	)*/}
+						{/*})}*/}
+						{/*</div>*/}
 						{/*<div className='themeItem_content_chart_lagends_wrapper'>*/}
 						{/*    <div*/}
 						{/*        className={[*/}
