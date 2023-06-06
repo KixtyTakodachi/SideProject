@@ -46,6 +46,7 @@ export default function ThemeItem() {
 	const themeData = useStore((state) => state.themeData)
 	const leftBarTab = useStore((state) => state.leftBarTab)
 	const toggleFavourite = useStore((state) => state.toggleFavorite)
+	const clearThemeData = useStore((state) => state.clearThemeData)
 
 	const [currentDate, setCurrentDate] = useState(dayjs(new Date('2023-05-09')))
 	const [content_comments, setContentComments] = useState(comments_source)
@@ -62,6 +63,12 @@ export default function ThemeItem() {
 			changeMonthYear(`${dayjs(new Date()).get('month') + 1}_${dayjs(new Date()).get('year')}`),
 		[],
 	)
+
+	useEffect(() => {
+		return () => {
+			clearThemeData()
+		}
+	}, [])
 
 	useEffect(() => {
 		getThemeData(active_theme, currentDate.format(date_format))
@@ -81,7 +88,6 @@ export default function ThemeItem() {
 			changeActiveTheme(window.location.pathname.split('/')[2])
 		}
 	}, [])
-	useEffect(() => {}, leftBarTab)
 
 	const onCommentSelect = (e) => {
 		console.log(`onCommentSelect id - ${e.target['data-id']} checked - ${e.target.checked}`)
@@ -94,8 +100,6 @@ export default function ThemeItem() {
 	const changeDate = (value) => {
 		setCurrentDate(value)
 	}
-
-	console.log('themeData::', themeData)
 
 	return (
 		<div className="themeItem">

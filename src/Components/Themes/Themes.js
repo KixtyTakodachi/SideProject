@@ -18,7 +18,9 @@ export default function Themes() {
 
 	const [tableData, setTableData] = useState(dataSource)
 	useEffect(() => {
-		getThemes()
+		if (Object.keys(dataSource).length === 0) {
+			getThemes()
+		}
 	}, [])
 	useEffect(() => setTableData(dataSource), [dataSource])
 

@@ -252,6 +252,15 @@
   justify-content: center;
 }
 
+.themeItem_content_tables{
+  background: white;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .chart_tooltip{
   background: #323a44;
   border-radius: 4px;
@@ -261,6 +270,7 @@
 .chart_tooltip_text{
   color: white;
   font-size: 14px;
+  margin: 5px 0;
 }
 
 .themeItem_content_chart_lagends_wrapper{
@@ -304,10 +314,17 @@
 .chart_wrapper{
   display: flex;
   flex-direction: column;
+  width: 50%;
+  min-height: 400px;
 }
 
 .chart_title{
   margin: 0 0 20px 40px ;
   font-size: 22px;
   font-weight: 500;
+}
+
+.table_wrapper{
+  display: flex;
+  flex-direction: column;
 }

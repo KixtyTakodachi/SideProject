@@ -16,6 +16,7 @@ export const tab_line_data_dictionary = {
 export const tab_pie_data_dictionary = {
 	2: 'tonality_total_day',
 	3: 'tags_total_day',
+	4: 'hub_total',
 	5: 'authors_by_sex_stat',
 }
 

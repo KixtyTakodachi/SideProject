@@ -24,8 +24,6 @@ function LeftBar(props) {
 		}
 	})
 
-	console.log(dataSource)
-
 	const select_options = dataSource.map((item) => {
 		return {
 			// value: themes_dict[item.name],

@@ -16,17 +16,6 @@ import { tab } from '@testing-library/user-event/dist/tab'
 function ContentManager(props) {
 	const { activeTab, chartData, pieChartData, legendsFilter } = props
 	let chartDataByTab = chartData[tab_line_data_dictionary[activeTab]]
-	if (chartDataByTab) {
-		chartDataByTab = chartDataByTab.map((item) => {
-			return {
-				...item,
-				count_authors: +item.count_authors,
-				count_mentions: +item.count_mentions,
-				sum_audience: +item.sum_audience,
-				sum_er: +item.sum_er,
-			}
-		})
-	}
 	let pieChartDataByTab = chartData[tab_pie_data_dictionary[activeTab]]
 	let barChartDataByTab = chartData[tab_bar_data_dictionary[activeTab]]
 	let tableData = chartData[tab_table_data_dictionary[activeTab]]
@@ -63,17 +52,20 @@ function ContentManager(props) {
 							/>
 						</div>
 					</div>
-					<div className="themeItem_content_chart">
-						<TableComponent
-							tableData={tableData}
-							columnsKeys={[
-								'rounded_timestamp',
-								'count_mentions',
-								'count_authors',
-								'sum_er',
-								'sum_audience',
-							]}
-						/>
+					<div className="themeItem_content_tables">
+						<div className="table_wrapper">
+							<h1 className="chart_title">Количество упоминаний</h1>
+							<TableComponent
+								tableData={tableData}
+								columnsKeys={[
+									'rounded_timestamp',
+									'count_mentions',
+									'count_authors',
+									'sum_er',
+									'sum_audience',
+								]}
+							/>
+						</div>
 					</div>
 				</>
 			)
@@ -81,7 +73,7 @@ function ContentManager(props) {
 		case '1': {
 			return (
 				<>
-					<div className="themeItem_content_chart">
+					<div className="themeItem_content_tables">
 						<TableComponent
 							tableData={tableData}
 							columnsKeys={[
@@ -128,7 +120,7 @@ function ContentManager(props) {
 				if (pieChartDataByTab[0][`${item}_percent`]) {
 					formattedPieChartData.push({
 						name: item,
-						value: Math.round(+pieChartDataByTab[0][`${item}_percent`]),
+						value: +pieChartDataByTab[0][`${item}_percent`],
 					})
 				}
 			})
@@ -146,6 +138,15 @@ function ContentManager(props) {
 						<div className="chart_wrapper">
 							<h1 className="chart_title">Распределение тональности</h1>
 							<PieChartComponent pieChartData={formattedPieChartData} />
+						</div>
+					</div>
+					<div className="themeItem_content_tables">
+						<div className="table_wrapper">
+							<h1 className="chart_title">Динамика упоминаний</h1>
+							<TableComponent
+								tableData={tableData}
+								columnsKeys={['rounded_timestamp', 'neitral', 'negative', 'positive']}
+							/>
 						</div>
 					</div>
 				</>
@@ -178,11 +179,18 @@ function ContentManager(props) {
 			)
 		}
 		case '4': {
+			const second_table_data = chartData.hub_total || []
+			const formattedPieChartData = pieChartDataByTab.map((item) => {
+				return {
+					name: item.hub,
+					value: +item.total_percent,
+				}
+			})
 			return (
 				<>
 					<div className="themeItem_content_chart">
 						<div className="chart_wrapper">
-							<h1 className="chart_title">Динамика упоминаний</h1>
+							<h1 className="chart_title">Динамика упоминаний по источникам</h1>
 							<LineChartComponent
 								XAxisKey={'rounded_timestamp'}
 								lineKeys={[
@@ -199,6 +207,40 @@ function ContentManager(props) {
 									'youtube.com',
 								]}
 								chartData={chartDataByTab}
+							/>
+						</div>
+						<div className="chart_wrapper">
+							<h1 className="chart_title">Распределение по источникам</h1>
+							<PieChartComponent pieChartData={formattedPieChartData} />
+						</div>
+					</div>
+
+					<div className="themeItem_content_tables">
+						<div className="table_wrapper">
+							<h1 className="chart_title">Динамика упоминаний по источникам</h1>
+							<TableComponent
+								tableData={tableData}
+								columnsKeys={[
+									'rounded_timestamp',
+									'2gis.ru',
+									'dzen.ru',
+									'facebook.com',
+									'instagram.com',
+									'ok.ru',
+									'other',
+									'play.google.com',
+									'telegram.org',
+									'vk.com',
+									'vsekz.org',
+									'youtube.com',
+								]}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Распределение по источникам</h1>
+							<TableComponent
+								tableData={second_table_data}
+								columnsKeys={['hub', 'total', 'positive', 'neitral', 'negative']}
 							/>
 						</div>
 					</div>
@@ -227,6 +269,10 @@ function ContentManager(props) {
 				})
 			}
 
+			let forth_table_data = chartData.authors_by_events || []
+			let fifth_table_data = chartData.authors_by_audience || []
+			let sixth_table_data = chartData.authors_by_er || []
+
 			return (
 				<>
 					<div className="themeItem_content_chart">
@@ -251,6 +297,77 @@ function ContentManager(props) {
 							<PieChartComponent pieChartData={formattedPieChartData} />
 						</div>
 					</div>
+					<div className="themeItem_content_tables">
+						<div className="table_wrapper">
+							<h1 className="chart_title">Количество авторов по дням</h1>
+							<TableComponent
+								tableData={tableData}
+								columnsKeys={['rounded_timestamp', 'count_authors']}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Возраст авторов</h1>
+							<TableComponent
+								tableData={barChartDataByTab}
+								columnsKeys={['author_age', 'percent']}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Количество авторов по дням</h1>
+							<TableComponent
+								tableData={pieChartDataByTab}
+								columnsKeys={['author_sex', 'count_authors', 'percent']}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Топ авторов по количеству упоминаний</h1>
+							<TableComponent
+								tableData={forth_table_data}
+								columnsKeys={[
+									'author_fullname',
+									'author_url',
+									'author_type',
+									'total',
+									'audience',
+									'positive',
+									'neitral',
+									'negative',
+								]}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Топ авторов по количеству аудитории</h1>
+							<TableComponent
+								tableData={fifth_table_data}
+								columnsKeys={[
+									'author_fullname',
+									'author_url',
+									'author_type',
+									'total',
+									'audience',
+									'positive',
+									'neitral',
+									'negative',
+								]}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Топ авторов по количеству вовлеченности</h1>
+							<TableComponent
+								tableData={sixth_table_data}
+								columnsKeys={[
+									'author_fullname',
+									'author_url',
+									'author_type',
+									'total',
+									'audience',
+									'positive',
+									'neitral',
+									'negative',
+								]}
+							/>
+						</div>
+					</div>
 				</>
 			)
 		}
@@ -273,6 +390,10 @@ function ContentManager(props) {
 					value: +item.total_percent,
 				}
 			})
+			let countrieTablesData = chartData.countries
+			let citieTablesData = chartData.cities
+			let regionTablesData = chartData.regions
+
 			return (
 				<>
 					<div className="themeItem_content_chart">
@@ -289,30 +410,50 @@ function ContentManager(props) {
 							<PieChartComponent pieChartData={regionsData} />
 						</div>
 					</div>
+					<div className="themeItem_content_tables">
+						<div className="table_wrapper">
+							<h1 className="chart_title">Страны</h1>
+							<TableComponent
+								tableData={countrieTablesData}
+								columnsKeys={[
+									'country',
+									'total',
+									'total_percent',
+									'positive',
+									'neitral',
+									'negative',
+								]}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Города</h1>
+							<TableComponent
+								tableData={citieTablesData}
+								columnsKeys={['city', 'total', 'total_percent', 'positive', 'neitral', 'negative']}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Регионы</h1>
+							<TableComponent
+								tableData={regionTablesData}
+								columnsKeys={[
+									'region',
+									'total',
+									'total_percent',
+									'positive',
+									'neitral',
+									'negative',
+								]}
+							/>
+						</div>
+					</div>
 				</>
 			)
 		}
 		default: {
 			return (
 				<>
-					<div className="themeItem_content_chart">
-						<div className="chart_wrapper">
-							<h1 className="chart_title">Количество упоминаний</h1>
-							<LineChartComponent legendsFilter={legendsFilter} chartData={chartData} />
-						</div>
-						<div className="chart_wrapper">
-							<h1 className="chart_title">Вовлеченность</h1>
-							<LineChartComponent legendsFilter={legendsFilter} chartData={chartData} />
-						</div>
-						<div className="chart_wrapper">
-							<h1 className="chart_title">Аудитория</h1>
-							<LineChartComponent legendsFilter={legendsFilter} chartData={chartData} />
-						</div>
-						<div className="chart_wrapper">
-							<h1 className="chart_title">Распределение тональности</h1>
-							<PieChartComponent pieChartData={pieChartData} />
-						</div>
-					</div>
+					<div className="themeItem_content_chart">No data yet</div>
 				</>
 			)
 		}

@@ -131,14 +131,21 @@ export const useStore = create((set) => ({
 	},
 	themeData: {},
 	getThemeData: async (alias, date) => {
+		console.log('state:: calling API getThemeData')
 		set({ loader: true })
-		const data = await callThemeData(alias, date)
+		let data = await callThemeData(alias, date)
+		console.log('State:: STOCK data', data)
+		data = mutateData(data)
+		console.log('State:: MUTATED data', data)
 		set({ themeData: data, loader: false })
 	},
 
 	loader: true,
 	changeLoader: (payload) => {
 		set({ loader: payload })
+	},
+	clearThemeData: () => {
+		set({ themeData: {} })
 	},
 }))
 
@@ -179,3 +186,26 @@ export const useStore = create((set) => ({
 //         group_type: 'commercial'
 //     },
 // ],
+
+//FIXME transforms string into ints so chart won't break
+function mutateData(data) {
+	const dataKeys = Object.keys(data)
+	const mutatedData = {}
+	dataKeys.forEach((item) => {
+		mutatedData[item] = data[item].map((elem) => {
+			const mutatedElem = {}
+			const keys = Object.keys(elem)
+			keys.forEach((key) => {
+				if (key === 'rounded_timestamp') {
+					mutatedElem[key] = elem[key].match(/\d{2}:\d{2}:\d{2}/)[0]
+				} else if (!/[^\d | .]/.test(elem[key])) {
+					mutatedElem[key] = +elem[key]
+				} else {
+					mutatedElem[key] = elem[key]
+				}
+			})
+			return mutatedElem
+		})
+	})
+	return mutatedData
+}

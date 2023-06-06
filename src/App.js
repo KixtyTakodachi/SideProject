@@ -10,7 +10,7 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Login />} /> <Route path="/login" element={<Login />} />
-				<Route path="/themes" element={<Themes />} />{' '}
+				<Route path="/themes" element={<Themes />} />
 				<Route path="/themes/:themeId" element={<ThemeItem />} />
 			</Routes>{' '}
 		</BrowserRouter>
