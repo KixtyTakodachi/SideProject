@@ -25,6 +25,7 @@ function BarChartComponent(props) {
 					type={'monotone'}
 					dataKey={item}
 					fill={charts_colors[index]}
+					stackId="a"
 				/>
 			)
 		})
@@ -41,7 +42,18 @@ function BarChartComponent(props) {
 
 	return (
 		<ResponsiveContainer width="100%" height="100%">
-			<BarChart layout={'vertical'} width={642} height={250} data={barChartData}>
+			<BarChart
+				margin={{
+					top: 5,
+					right: 5,
+					bottom: 5,
+					left: 85,
+				}}
+				layout={'vertical'}
+				width={642}
+				height={250}
+				data={barChartData}
+			>
 				{/*{!legendsFilter.includes('positive') ? (*/}
 				{/*	<Bar type={'monotone'} dataKey={'positive'} fill={'#8fc144'} />*/}
 				{/*) : (*/}

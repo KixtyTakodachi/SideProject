@@ -42,7 +42,17 @@ function LineChartComponent(props) {
 
 	return (
 		<ResponsiveContainer width="100%" height="100%">
-			<LineChart width={642} height={250} data={chartData}>
+			<LineChart
+				margin={{
+					top: 5,
+					right: 5,
+					bottom: 5,
+					left: 30,
+				}}
+				width={642}
+				height={250}
+				data={chartData}
+			>
 				{/*{*/}
 				{/*  !legendsFilter.includes('positive') ?*/}
 				{/*    <Line type={'monotone'} dataKey={'positive'} stroke={'#8fc144'}/>*/}

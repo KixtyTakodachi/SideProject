@@ -153,25 +153,91 @@ function ContentManager(props) {
 			)
 		}
 		case '3': {
+			const allLineKeys = Object.keys(chartDataByTab[0]).filter(
+				(item) => item !== 'rounded_timestamp',
+			)
+			const formattedPieChartData = pieChartDataByTab
+				.map((item) => {
+					return {
+						name: item.tag,
+						value: item.total_percent,
+					}
+				})
+				.sort(sortFunction('value'))
+
+			const tableMentionsData = chartData.tags_total_day
+			const tableMentionsHoursData = chartData.tags_top_10
+
+			const tonalityByTag = [...barChartDataByTab.sort(sortFunction('row_number'))].filter(
+				(item) => item.row_number <= 10,
+			)
+			const audienceByTag = [...barChartDataByTab.sort(sortFunction('audience'))].filter(
+				(item) => item.row_number <= 10,
+			)
+
+			const topTenByTonality = tonalityByTag.map((item) => item.tag)
+			const lineChartData = chartDataByTab.map((item) => {
+				const mutatedItem = {}
+				topTenByTonality.forEach((elem) => {
+					mutatedItem[elem] = item[elem]
+				})
+				mutatedItem.rounded_timestamp = item.rounded_timestamp
+				return mutatedItem
+			})
+			console.log(chartDataByTab)
+
 			return (
 				<>
 					<div className="themeItem_content_chart">
 						<div className="chart_wrapper">
-							<h1 className="chart_title">Динамика упоминаний</h1>
+							<h1 className="chart_title">Динамика упоминаний по тэгам (Топ - 10)</h1>
 							<LineChartComponent
 								XAxisKey={'rounded_timestamp'}
-								lineKeys={[
-									'Al-Hilal',
-									'Alfabank Kazakhstan',
-									'ForteBank',
-									'Halyk bank',
-									'Kaspi Bank',
-									'Береке банк',
-									'ВТБ Казахстан',
-									'Евразийский банк',
-									'Отбасы банк',
-								]}
-								chartData={chartDataByTab}
+								lineKeys={allLineKeys}
+								chartData={lineChartData}
+							/>
+						</div>
+						<div className="chart_wrapper">
+							<h1 className="chart_title">Количество упоминаний</h1>
+							<PieChartComponent pieChartData={formattedPieChartData} />
+						</div>
+						<div className="chart_wrapper">
+							<h1 className="chart_title">Тональность упоминания по тэгам (Топ - 10)</h1>
+							<BarChartComponent
+								XAxisKey={'tag'}
+								barKeys={['neitral', 'positive', 'negative']}
+								barChartData={tonalityByTag}
+							/>
+						</div>
+						<div className="chart_wrapper">
+							<h1 className="chart_title">Аудитория по тэгам (Топ - 10)</h1>
+							<BarChartComponent
+								XAxisKey={'tag'}
+								barKeys={'audience'}
+								barChartData={audienceByTag}
+							/>
+						</div>
+					</div>
+					<div className="themeItem_content_tables">
+						<div className="table_wrapper">
+							<h1 className="chart_title">Тональность упоминания по тэгам</h1>
+							<TableComponent
+								tableData={tableMentionsData}
+								columnsKeys={['tag', 'total', 'neitral', 'negative', 'positive']}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Аудитория по тэгам</h1>
+							<TableComponent
+								tableData={tableMentionsData}
+								columnsKeys={['tag', 'audience', 'er', 'total']}
+							/>
+						</div>
+						<div className="table_wrapper">
+							<h1 className="chart_title">Динамика упоминаний по тэгам</h1>
+							<TableComponent
+								tableData={tableMentionsHoursData}
+								columnsKeys={['rounded_timestamp', ...allLineKeys]}
 							/>
 						</div>
 					</div>
@@ -249,22 +315,12 @@ function ContentManager(props) {
 		}
 		case '5': {
 			let formattedPieChartData = []
-			let formattedBarChartData = []
 
 			if (pieChartDataByTab) {
 				formattedPieChartData = pieChartDataByTab.map((item) => {
 					return {
 						name: item.author_sex,
 						value: item.count_authors,
-					}
-				})
-			}
-
-			if (barChartDataByTab) {
-				formattedBarChartData = barChartDataByTab.map((item) => {
-					return {
-						...item,
-						percent: Math.round(+item.percent),
 					}
 				})
 			}
@@ -289,7 +345,7 @@ function ContentManager(props) {
 							<BarChartComponent
 								XAxisKey={'author_age'}
 								barKeys={'percent'}
-								barChartData={formattedBarChartData}
+								barChartData={barChartDataByTab}
 							/>
 						</div>
 						<div className="chart_wrapper">
@@ -394,6 +450,8 @@ function ContentManager(props) {
 			let citieTablesData = chartData.cities
 			let regionTablesData = chartData.regions
 
+			console.log('total_with_country_percent:', chartData.geo_stat)
+
 			return (
 				<>
 					<div className="themeItem_content_chart">
@@ -409,6 +467,11 @@ function ContentManager(props) {
 							<h1 className="chart_title">Регионы</h1>
 							<PieChartComponent pieChartData={regionsData} />
 						</div>
+						<div className="geo_stat">{`
+						Отчет по странам и городам представлен только по тем авторам, для которых есть данные по местоположению.
+						Страна: ${chartData.geo_stat[0].total_with_country_percent}% от всех авторов;
+						Город: ${chartData.geo_stat[0].total_with_city_percent}%;
+						Регион: ${chartData.geo_stat[0].total_with_region_percent}%`}</div>
 					</div>
 					<div className="themeItem_content_tables">
 						<div className="table_wrapper">
@@ -450,6 +513,42 @@ function ContentManager(props) {
 				</>
 			)
 		}
+		case '12': {
+			const formattedTableData = tableData.map((item) => {
+				return {
+					...item,
+					geo_title: item.geo_title.includes('span')
+						? item.geo_title
+								.match(/[\wа-я]+,|>[\wа-я]+</gi)
+								.map((item) => item.match(/[\wа-я]+/i)[0])
+								.join(', ')
+						: item.geo_title,
+				}
+			})
+
+			return (
+				<>
+					<div className="themeItem_content_tables">
+						<div className="table_wrapper">
+							<h1 className="chart_title">Места</h1>
+							<TableComponent
+								tableData={tableData}
+								columnsKeys={[
+									'#',
+									'geo_title',
+									'geo_address',
+									'total',
+									'er',
+									'positive',
+									'neitral',
+									'negative',
+								]}
+							/>
+						</div>
+					</div>
+				</>
+			)
+		}
 		default: {
 			return (
 				<>
@@ -461,3 +560,9 @@ function ContentManager(props) {
 }
 
 export default ContentManager
+
+function sortFunction(prop) {
+	return (a, b) => {
+		return a[prop] - b[prop]
+	}
+}

@@ -6,7 +6,7 @@ import { charts_colors, keys_translaltion_dictionary } from '../../global_vars'
 function PieChartComponent(props) {
 	const { pieChartData } = props
 	return (
-		<ResponsiveContainer width="100%" height="100%">
+		<ResponsiveContainer width="100%" height="80%">
 			<PieChart width={700} height={250}>
 				<Pie
 					dataKey="value"
