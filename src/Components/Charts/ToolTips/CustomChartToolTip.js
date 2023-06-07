@@ -13,7 +13,7 @@ function CustomChartToolTip({ active, payload, label }) {
 					{(language === 'ru' ? 'Время: ' : 'Уақыт: ') + label}
 				</div>
 				{payload.map((item) => (
-					<div className="chart_tooltip_text">{`${
+					<div key={item.name} className="chart_tooltip_text">{`${
 						keys_translaltion_dictionary[item.name] || item.name
 					}: ${item.value}`}</div>
 				))}

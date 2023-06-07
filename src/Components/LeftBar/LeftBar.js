@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ru_kz_dict } from '../../dictionaries/ru_kz_dict'
 import { PlusSquareOutlined } from '@ant-design/icons'
 import { useStore } from '../../store/store'
@@ -15,6 +15,7 @@ function LeftBar(props) {
 	const changeActiveTheme = useStore((state) => state.changeActiveTheme)
 	const active_theme = useStore((state) => state.active_theme)
 	const language = useStore((state) => state.language)
+	const getThemes = useStore((state) => state.getThemes)
 
 	const left_bar_menu = Object.entries(left_bar_dictionary[language]).map(([key, value]) => {
 		return {
@@ -24,13 +25,21 @@ function LeftBar(props) {
 		}
 	})
 
+	console.log(dataSource)
 	const select_options = dataSource.map((item) => {
 		return {
 			// value: themes_dict[item.name],
 			value: item.alias,
-			label: item.alias,
+			label: item.title,
+			key: item.id + item.alias,
 		}
 	})
+
+	useEffect(() => {
+		if (Object.keys(dataSource).length === 0) {
+			getThemes()
+		}
+	}, [])
 
 	const menuClick = (id) => {
 		changeLeftBarTab(id)
@@ -51,7 +60,8 @@ function LeftBar(props) {
 			</div>
 			<Select
 				className="themeItem_left_bar_select"
-				defaultValue={active_theme || 0}
+				// defaultValue={active_theme || 0}
+				value={active_theme}
 				showSearch
 				onChange={onSelectChange}
 				options={select_options}

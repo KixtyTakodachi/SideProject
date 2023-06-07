@@ -12,6 +12,7 @@ import {
 import BarChartComponent from './BarChartComponent'
 import TableComponent from './TableComponent'
 import { tab } from '@testing-library/user-event/dist/tab'
+import CommentComponent from '../Comment/CommentComponent'
 
 function ContentManager(props) {
 	const { activeTab, chartData, pieChartData, legendsFilter } = props
@@ -73,43 +74,46 @@ function ContentManager(props) {
 		case '1': {
 			return (
 				<>
-					<div className="themeItem_content_tables">
-						<TableComponent
-							tableData={tableData}
-							columnsKeys={[
-								'date',
-								'id',
-								'text',
-								'hub',
-								'url',
-								'hubtype',
-								'type',
-								'author_fullname',
-								'author_url',
-								'author_type',
-								'author_sex',
-								'author_age',
-								'audienceCount',
-								'commentsCount',
-								'repostsCount',
-								'likesCount',
-								'er',
-								'viewsCount',
-								'review_rating',
-								'duplicateCount',
-								'toneMark',
-								'role',
-								'aggression',
-								'country',
-								'region',
-								'city',
-								'geo_address',
-								'language',
-								'WOM',
-								'processed',
-							]}
-						/>
-					</div>
+					{/*<div className="themeItem_content_tables">*/}
+					{/*	<TableComponent*/}
+					{/*		tableData={tableData}*/}
+					{/*		columnsKeys={[*/}
+					{/*			'date',*/}
+					{/*			'id',*/}
+					{/*			'text',*/}
+					{/*			'hub',*/}
+					{/*			'url',*/}
+					{/*			'hubtype',*/}
+					{/*			'type',*/}
+					{/*			'author_fullname',*/}
+					{/*			'author_url',*/}
+					{/*			'author_type',*/}
+					{/*			'author_sex',*/}
+					{/*			'author_age',*/}
+					{/*			'audienceCount',*/}
+					{/*			'commentsCount',*/}
+					{/*			'repostsCount',*/}
+					{/*			'likesCount',*/}
+					{/*			'er',*/}
+					{/*			'viewsCount',*/}
+					{/*			'review_rating',*/}
+					{/*			'duplicateCount',*/}
+					{/*			'toneMark',*/}
+					{/*			'role',*/}
+					{/*			'aggression',*/}
+					{/*			'country',*/}
+					{/*			'region',*/}
+					{/*			'city',*/}
+					{/*			'geo_address',*/}
+					{/*			'language',*/}
+					{/*			'WOM',*/}
+					{/*			'processed',*/}
+					{/*		]}*/}
+					{/*	/>*/}
+					{/*</div>*/}
+					{tableData.map((item, index) => {
+						return <CommentComponent key={item.id} name={item.author_fullname} text={item.text} />
+					})}
 				</>
 			)
 		}

@@ -155,6 +155,7 @@ export default function Themes() {
 					</Button>
 				</div>
 				<Table
+					rowKey={(record) => record.id + record.alias}
 					pagination={false}
 					dataSource={tableData}
 					columns={columns}

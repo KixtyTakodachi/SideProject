@@ -20,7 +20,13 @@ function TableComponent(props) {
 			}
 		}
 	})
-	return <Table dataSource={tableData} columns={columns} />
+	return (
+		<Table
+			rowKey={(record) => record[columnsKeys[0]] + record[columnsKeys[1]]}
+			dataSource={tableData}
+			columns={columns}
+		/>
+	)
 }
 
 export default TableComponent
