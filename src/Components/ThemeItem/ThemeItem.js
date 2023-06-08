@@ -29,6 +29,7 @@ import { left_bar_dictionary } from '../../dictionaries/left_bar_dictionary'
 import ContentManager from '../Charts/ContentManager'
 import { date_format } from '../../global_vars'
 import Loader from '../Loader/Loader'
+import CreateThemeModal from '../CreateThemeModal/CreateThemeModal'
 
 const disabledDate = (current) => {
 	const start = dayjs(new Date('2022-09-01'))
@@ -72,7 +73,7 @@ export default function ThemeItem() {
 
 	useEffect(() => {
 		getThemeData(active_theme, currentDate.format(date_format))
-	}, [active_theme, currentDate])
+	}, [active_theme, currentDate.format(date_format)])
 	// useEffect(() => {
 	// 	if(Object.keys(themeData).length > 0){
 	// 		const chartData
@@ -103,6 +104,7 @@ export default function ThemeItem() {
 
 	return (
 		<div className="themeItem">
+			<CreateThemeModal />
 			<Loader />
 			<Header />
 			<div className="container">

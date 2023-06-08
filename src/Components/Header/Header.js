@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import './Header.scss'
 import logo from '../../img/blank.svg'
 import avatar from '../../img/avatar.svg'
-import { SettingOutlined, ExportOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, ExportOutlined } from '@ant-design/icons'
 import { useStore } from '../../store/store'
 import { Link } from 'react-router-dom'
 import { ru_kz_dict } from '../../dictionaries/ru_kz_dict'
+import { Popover } from 'antd'
 
 export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -13,6 +14,7 @@ export default function Header() {
 	const changeLanguage = useStore((state) => state.changeLanguage)
 	const page = useStore((state) => state.active_page)
 	const changeActivePage = useStore((state) => state.changePage)
+	const showCreateModal = useStore((state) => state.showCreateModal)
 
 	const menuClick = (page) => {
 		changeActivePage(page)
@@ -25,8 +27,25 @@ export default function Header() {
 		window.location.replace(window.location.origin + `/${path}`)
 	}
 
+	const content = (
+		<ul className={['header_user_menu', 'active'].join(' ')}>
+			<div className="divider"></div>
+			<li className="header_user_menu_item" onClick={showCreateModal}>
+				<PlusCircleOutlined style={{ color: '#007eff' }} /> Добавить новую тему
+			</li>
+			<li
+				className="header_user_menu_item"
+				onClick={() => {
+					profileMenuClick('login')
+				}}
+			>
+				<ExportOutlined style={{ color: '#007eff' }} /> {ru_kz_dict.exit[language]}
+			</li>
+		</ul>
+	)
+
 	return (
-		<div className="header" onClick={isMenuOpen ? () => setIsMenuOpen(false) : () => {}}>
+		<div className="header">
 			<div className="container">
 				<div className="header_wrapper">
 					<div className="header_logo_wrapper">
@@ -65,32 +84,9 @@ export default function Header() {
 								<img src={avatar} className="header_user_img" alt="avatar" />
 							</div>
 							<div className="header_user_login">16goncharova@gmail.com</div>
-							<div
-								className="header_user_menu_button"
-								onClick={() => {
-									setIsMenuOpen(!isMenuOpen)
-								}}
-							></div>
-							<ul className={['header_user_menu', isMenuOpen ? 'active' : ''].join(' ')}>
-								<div className="header_user_name">Test User</div>
-								<div className="divider"></div>
-								<li
-									className="header_user_menu_item"
-									onClick={() => {
-										profileMenuClick('profile')
-									}}
-								>
-									<SettingOutlined style={{ color: '#007eff' }} /> Профиль
-								</li>
-								<li
-									className="header_user_menu_item"
-									onClick={() => {
-										profileMenuClick('login')
-									}}
-								>
-									<ExportOutlined style={{ color: '#007eff' }} /> {ru_kz_dict.exit[language]}
-								</li>
-							</ul>
+							<Popover content={content} title={'16goncharova@gmail.com'} trigger={'click'}>
+								<div className="header_user_menu_button"></div>
+							</Popover>
 						</div>
 						<div className="header_language">
 							<div
@@ -116,10 +112,6 @@ export default function Header() {
 					</div>
 				</div>
 			</div>
-			<div
-				className={['header_overlay', isMenuOpen ? 'overlay_active' : ''].join(' ')}
-				onClick={() => setIsMenuOpen(false)}
-			></div>
 		</div>
 	)
 }

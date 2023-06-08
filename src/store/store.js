@@ -3,7 +3,8 @@ import { ru_kz_dict } from '../dictionaries/ru_kz_dict'
 import comment_avatar from '../img/comment_avatar.svg'
 import comment_img from '../img/comment_img.png'
 import dayjs from 'dayjs'
-import { callThemeData, callThemes } from '../api/api-themes'
+import { callCreateTheme, callThemeData, callThemes } from '../api/api-themes'
+import loader from '../Components/Loader/Loader'
 
 export const useStore = create((set) => ({
 	language: 'ru',
@@ -140,12 +141,27 @@ export const useStore = create((set) => ({
 		set({ themeData: data, loader: false })
 	},
 
-	loader: true,
+	loader: false,
 	changeLoader: (payload) => {
 		set({ loader: payload })
 	},
 	clearThemeData: () => {
 		set({ themeData: {} })
+	},
+	isModalVisible: false,
+	showCreateModal: () => {
+		set({ isModalVisible: true })
+	},
+	hideCreateModal: () => {
+		set({ isModalVisible: false })
+	},
+	sendCreateTheme: async (title, alias) => {
+		set({ loader: true })
+		let data = await callCreateTheme(title, alias)
+		set((state) => {
+			state.getThemes()
+			return { loader: false, isModalVisible: false }
+		})
 	},
 }))
 

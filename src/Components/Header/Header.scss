@@ -55,15 +55,11 @@
 .header_user_menu{
   opacity: 0;
   pointer-events: none;
-  position: absolute;
   width: 100%;
-  right: 0px;
-  bottom: -160px;
-  border-radius: 8px;
   list-style: none;
   background: white;
   padding: 10px 0px;
-  border: 1px solid #b6b6b6;
+  margin: unset;
   transition: 0.2s all;
   z-index: 1;
 }
@@ -142,7 +138,7 @@
 .divider{
   height: 1px;
   background: #b6b6b6;
-  margin: 10px;
+  //margin: 5px 0px;
 }
 
 .active{

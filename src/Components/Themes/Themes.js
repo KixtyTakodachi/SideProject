@@ -8,6 +8,8 @@ import Footer from '../Footer/Footer'
 import { Link } from 'react-router-dom'
 import { ru_kz_dict } from '../../dictionaries/ru_kz_dict'
 import { themes_dict } from '../../dictionaries/themes_dict'
+import CreateThemeModal from '../CreateThemeModal/CreateThemeModal'
+import Loader from '../Loader/Loader'
 
 export default function Themes() {
 	const active_month_year = useStore((state) => state.active_month_year)
@@ -15,6 +17,7 @@ export default function Themes() {
 	const language = useStore((state) => state.language)
 	const changeActiveTheme = useStore((state) => state.changeActiveTheme)
 	const getThemes = useStore((state) => state.getThemes)
+	const showCreateModal = useStore((state) => state.showCreateModal)
 
 	const [tableData, setTableData] = useState(dataSource)
 	useEffect(() => {
@@ -140,6 +143,8 @@ export default function Themes() {
 
 	return (
 		<div className="themes">
+			<CreateThemeModal />
+			<Loader />
 			<Header />
 			<div className="container">
 				<div className="themes_header">
@@ -150,7 +155,7 @@ export default function Themes() {
 						options={select_options}
 						onChange={selectChange}
 					/>
-					<Button className="themes_header_button" type="primary" onClick={addNewTheme}>
+					<Button className="themes_header_button" type="primary" onClick={showCreateModal}>
 						{ru_kz_dict.add_theme[language]}
 					</Button>
 				</div>

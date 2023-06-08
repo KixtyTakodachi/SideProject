@@ -3,8 +3,8 @@ export const key = '917a34072663f9c8beea3b45e8f129c5'
 export const date_format = 'YYYY-MM-DD'
 export const charts_colors = [
 	'#4779d0',
-	'#8fc144',
 	'#cf6662',
+	'#8fc144',
 	'#729EA1',
 	'#B5BD89',
 	'#DFBE99',

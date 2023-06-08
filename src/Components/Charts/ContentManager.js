@@ -135,7 +135,7 @@ function ContentManager(props) {
 							<h1 className="chart_title">Динамика упоминаний</h1>
 							<LineChartComponent
 								XAxisKey={'rounded_timestamp'}
-								lineKeys={['neitral', 'positive', 'negative']}
+								lineKeys={['neitral', 'negative', 'positive']}
 								chartData={chartDataByTab}
 							/>
 						</div>
@@ -209,7 +209,7 @@ function ContentManager(props) {
 							<h1 className="chart_title">Тональность упоминания по тэгам (Топ - 10)</h1>
 							<BarChartComponent
 								XAxisKey={'tag'}
-								barKeys={['neitral', 'positive', 'negative']}
+								barKeys={['neitral', 'negative', 'positive']}
 								barChartData={tonalityByTag}
 							/>
 						</div>
@@ -344,14 +344,14 @@ function ContentManager(props) {
 								chartData={chartDataByTab}
 							/>
 						</div>
-						<div className="chart_wrapper">
-							<h1 className="chart_title">Возраст авторов</h1>
-							<BarChartComponent
-								XAxisKey={'author_age'}
-								barKeys={'percent'}
-								barChartData={barChartDataByTab}
-							/>
-						</div>
+						{/*<div className="chart_wrapper">*/}
+						{/*	<h1 className="chart_title">Возраст авторов</h1>*/}
+						{/*	<BarChartComponent*/}
+						{/*		XAxisKey={'author_age'}*/}
+						{/*		barKeys={'percent'}*/}
+						{/*		barChartData={barChartDataByTab}*/}
+						{/*	/>*/}
+						{/*</div>*/}
 						<div className="chart_wrapper">
 							<h1 className="chart_title">Пол авторов</h1>
 							<PieChartComponent pieChartData={formattedPieChartData} />
@@ -365,13 +365,13 @@ function ContentManager(props) {
 								columnsKeys={['rounded_timestamp', 'count_authors']}
 							/>
 						</div>
-						<div className="table_wrapper">
-							<h1 className="chart_title">Возраст авторов</h1>
-							<TableComponent
-								tableData={barChartDataByTab}
-								columnsKeys={['author_age', 'percent']}
-							/>
-						</div>
+						{/*<div className="table_wrapper">*/}
+						{/*	<h1 className="chart_title">Возраст авторов</h1>*/}
+						{/*	<TableComponent*/}
+						{/*		tableData={barChartDataByTab}*/}
+						{/*		columnsKeys={['author_age', 'percent']}*/}
+						{/*	/>*/}
+						{/*</div>*/}
 						<div className="table_wrapper">
 							<h1 className="chart_title">Количество авторов по дням</h1>
 							<TableComponent
