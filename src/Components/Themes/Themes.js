@@ -10,6 +10,7 @@ import { ru_kz_dict } from '../../dictionaries/ru_kz_dict'
 import { themes_dict } from '../../dictionaries/themes_dict'
 import CreateThemeModal from '../CreateThemeModal/CreateThemeModal'
 import Loader from '../Loader/Loader'
+import EditThemeModal from '../EditThemeModal/EditThemeModal'
 
 export default function Themes() {
 	const active_month_year = useStore((state) => state.active_month_year)
@@ -18,8 +19,10 @@ export default function Themes() {
 	const changeActiveTheme = useStore((state) => state.changeActiveTheme)
 	const getThemes = useStore((state) => state.getThemes)
 	const showCreateModal = useStore((state) => state.showCreateModal)
+	const sendDeleteTheme = useStore((state) => state.sendDeleteTheme)
 
 	const [tableData, setTableData] = useState(dataSource)
+	const [editModalProps, setEditModalProps] = useState({ visible: false, alias: '', title: '' })
 	useEffect(() => {
 		if (Object.keys(dataSource).length === 0) {
 			getThemes()
@@ -117,7 +120,11 @@ export default function Themes() {
 	}
 
 	const editRecord = (record) => {
-		console.log('editRecord clicked record:', record)
+		setEditModalProps({
+			visible: true,
+			alias: record.alias,
+			title: record.title,
+		})
 	}
 
 	const stopRecord = (record) => {
@@ -125,7 +132,7 @@ export default function Themes() {
 	}
 
 	const deleteRecord = (record) => {
-		console.log('deleteRecord clicked record:', record)
+		sendDeleteTheme(record.alias)
 	}
 
 	const selectChange = (value) => {
@@ -144,20 +151,26 @@ export default function Themes() {
 	return (
 		<div className="themes">
 			<CreateThemeModal />
+			<EditThemeModal
+				setEditModalProps={setEditModalProps}
+				isVisible={editModalProps.visible}
+				title={editModalProps.title}
+				alias={editModalProps.alias}
+			/>
 			<Loader />
 			<Header />
 			<div className="container">
 				<div className="themes_header">
 					<h1 className="themes_header_title">{ru_kz_dict.temi[language]}</h1>
-					<Select
-						className="themes_select"
-						defaultValue={'all'}
-						options={select_options}
-						onChange={selectChange}
-					/>
-					<Button className="themes_header_button" type="primary" onClick={showCreateModal}>
-						{ru_kz_dict.add_theme[language]}
-					</Button>
+					{/*<Select*/}
+					{/*	className="themes_select"*/}
+					{/*	defaultValue={'all'}*/}
+					{/*	options={select_options}*/}
+					{/*	onChange={selectChange}*/}
+					{/*/>*/}
+					{/*<Button className="themes_header_button" type="primary" onClick={showCreateModal}>*/}
+					{/*	{ru_kz_dict.add_theme[language]}*/}
+					{/*</Button>*/}
 				</div>
 				<Table
 					rowKey={(record) => record.id + record.alias}

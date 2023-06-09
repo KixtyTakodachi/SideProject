@@ -3,7 +3,13 @@ import { ru_kz_dict } from '../dictionaries/ru_kz_dict'
 import comment_avatar from '../img/comment_avatar.svg'
 import comment_img from '../img/comment_img.png'
 import dayjs from 'dayjs'
-import { callCreateTheme, callThemeData, callThemes } from '../api/api-themes'
+import {
+	callCreateTheme,
+	callDeleteTheme,
+	callThemeData,
+	callThemes,
+	callUpdateTheme,
+} from '../api/api-themes'
 import loader from '../Components/Loader/Loader'
 
 export const useStore = create((set) => ({
@@ -163,6 +169,21 @@ export const useStore = create((set) => ({
 			return { loader: false, isModalVisible: false }
 		})
 	},
+	sendUpdateTheme: async (theme, date, file) => {
+		set({ loader: true })
+		let data = await callUpdateTheme(theme, date, file)
+		console.log('response from update: ', data)
+		set({ loader: false })
+	},
+	sendDeleteTheme: async (alias) => {
+		set({ loader: true })
+		let data = await callDeleteTheme(alias)
+		console.log('response from delete: ', data)
+		set((state) => {
+			state.getThemes()
+			return { loader: false }
+		})
+	},
 }))
 
 // dataSource: [
@@ -208,19 +229,23 @@ function mutateData(data) {
 	const dataKeys = Object.keys(data)
 	const mutatedData = {}
 	dataKeys.forEach((item) => {
-		mutatedData[item] = data[item].map((elem) => {
+		mutatedData[item] = data[item]?.map((elem) => {
 			const mutatedElem = {}
-			const keys = Object.keys(elem)
-			keys.forEach((key) => {
-				if (key === 'rounded_timestamp') {
-					mutatedElem[key] = elem[key].match(/\d{2}:\d{2}:\d{2}/)[0]
-				} else if (!/[^\d | .]/.test(elem[key])) {
-					mutatedElem[key] = +elem[key]
-				} else {
-					mutatedElem[key] = elem[key]
-				}
-			})
-			return mutatedElem
+			if (item !== 'dates') {
+				const keys = Object.keys(elem)
+				keys.forEach((key) => {
+					if (key === 'rounded_timestamp') {
+						mutatedElem[key] = elem[key].match(/\d{2}:\d{2}:\d{2}/)[0]
+					} else if (!/[^\d | .]/.test(elem[key])) {
+						mutatedElem[key] = +elem[key]
+					} else {
+						mutatedElem[key] = elem[key]
+					}
+				})
+				return mutatedElem
+			} else {
+				return elem
+			}
 		})
 	})
 	return mutatedData

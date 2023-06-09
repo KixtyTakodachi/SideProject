@@ -31,11 +31,11 @@ import { date_format } from '../../global_vars'
 import Loader from '../Loader/Loader'
 import CreateThemeModal from '../CreateThemeModal/CreateThemeModal'
 
-const disabledDate = (current) => {
-	const start = dayjs(new Date('2022-09-01'))
-	const end = dayjs(new Date('2023-12-01'))
-	return (current && current < start.endOf('month')) || (current && current > end.endOf('month'))
-}
+// const disabledDate = (current) => {
+// 	const start = dayjs(new Date('2022-09-01'))
+// 	const end = dayjs(new Date('2023-12-01'))
+// 	return (current && current < start.endOf('month')) || (current && current > end.endOf('month'))
+// }
 
 export default function ThemeItem() {
 	const language = useStore((state) => state.language)
@@ -100,6 +100,11 @@ export default function ThemeItem() {
 
 	const changeDate = (value) => {
 		setCurrentDate(value)
+	}
+
+	const disabledDate = (current) => {
+		const currentDate = current.format(date_format)
+		return !themeData?.dates.includes(currentDate)
 	}
 
 	return (

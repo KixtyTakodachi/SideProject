@@ -65,3 +65,46 @@ export const callCreateTheme = async (title, alias) => {
 
 	return data
 }
+
+export const callUpdateTheme = async (theme, date, file) => {
+	const form = new FormData()
+	form.append('key', key)
+	form.append('theme', theme)
+	form.append('date', date)
+	form.append('file', file)
+
+	const call_url = url + 'upload-api/'
+
+	let data = []
+
+	await axios({
+		method: 'POST',
+		url: call_url,
+		data: form,
+		headers: { 'Content-Type': 'multipart/form-data' },
+	})
+		.then((response) => (data = response.data))
+		.catch((err) => console.log(err))
+
+	return data
+}
+
+export const callDeleteTheme = async (alias) => {
+	const form = new FormData()
+	form.append('key', key)
+	form.append('alias', alias)
+
+	const call_url = url + 'delete-theme/'
+
+	let data = []
+
+	await axios({
+		method: 'POST',
+		url: call_url,
+		data: form,
+	})
+		.then((response) => (data = response.data))
+		.catch((err) => console.log(err))
+
+	return data
+}
