@@ -19,7 +19,7 @@ function ContentManager(props) {
 	let chartDataByTab = chartData[tab_line_data_dictionary[activeTab]]
 	let pieChartDataByTab = chartData[tab_pie_data_dictionary[activeTab]]
 	let barChartDataByTab = chartData[tab_bar_data_dictionary[activeTab]]
-	let tableData = chartData[tab_table_data_dictionary[activeTab]]
+	let tableData = chartData[tab_table_data_dictionary[activeTab]] || []
 	switch (activeTab) {
 		case '0': {
 			return (

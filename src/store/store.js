@@ -152,7 +152,7 @@ export const useStore = create((set) => ({
 		set({ loader: payload })
 	},
 	clearThemeData: () => {
-		set({ themeData: {} })
+		set({ themeData: {}, leftBarTab: '0' })
 	},
 	isModalVisible: false,
 	showCreateModal: () => {
