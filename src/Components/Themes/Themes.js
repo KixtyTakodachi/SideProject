@@ -116,7 +116,7 @@ export default function Themes() {
 	]
 
 	const addNewTheme = () => {
-		console.log('Add theme button clicked')
+		// console.log('Add theme button clicked')
 	}
 
 	const editRecord = (record) => {
@@ -128,7 +128,7 @@ export default function Themes() {
 	}
 
 	const stopRecord = (record) => {
-		console.log('stopRecord clicked record:', record)
+		// console.log('stopRecord clicked record:', record)
 	}
 
 	const deleteRecord = (record) => {

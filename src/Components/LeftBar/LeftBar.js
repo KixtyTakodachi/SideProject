@@ -25,7 +25,7 @@ function LeftBar(props) {
 		}
 	})
 
-	console.log(dataSource)
+	// console.log(dataSource)
 	const select_options = dataSource.map((item) => {
 		return {
 			// value: themes_dict[item.name],
@@ -43,7 +43,7 @@ function LeftBar(props) {
 
 	const menuClick = (id) => {
 		changeLeftBarTab(id)
-		console.log('menu item clicked id', id)
+		// console.log('menu item clicked id', id)
 	}
 
 	const onSelectChange = (value) => {

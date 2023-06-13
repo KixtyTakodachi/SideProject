@@ -188,7 +188,7 @@ function ContentManager(props) {
 				mutatedItem.rounded_timestamp = item.rounded_timestamp
 				return mutatedItem
 			})
-			console.log(chartDataByTab)
+			// console.log(chartDataByTab)
 
 			return (
 				<>
@@ -454,7 +454,7 @@ function ContentManager(props) {
 			let citieTablesData = chartData.cities
 			let regionTablesData = chartData.regions
 
-			console.log('total_with_country_percent:', chartData.geo_stat)
+			// console.log('total_with_country_percent:', chartData.geo_stat)
 
 			return (
 				<>

@@ -138,12 +138,12 @@ export const useStore = create((set) => ({
 	},
 	themeData: {},
 	getThemeData: async (alias, date) => {
-		console.log('state:: calling API getThemeData')
+		// console.log('state:: calling API getThemeData')
 		set({ loader: true })
 		let data = await callThemeData(alias, date)
-		console.log('State:: STOCK data', data)
+		// console.log('State:: STOCK data', data)
 		data = mutateData(data)
-		console.log('State:: MUTATED data', data)
+		// console.log('State:: MUTATED data', data)
 		set({ themeData: data, loader: false })
 	},
 
@@ -172,13 +172,13 @@ export const useStore = create((set) => ({
 	sendUpdateTheme: async (theme, date, file) => {
 		set({ loader: true })
 		let data = await callUpdateTheme(theme, date, file)
-		console.log('response from update: ', data)
+		// console.log('response from update: ', data)
 		set({ loader: false })
 	},
 	sendDeleteTheme: async (alias) => {
 		set({ loader: true })
 		let data = await callDeleteTheme(alias)
-		console.log('response from delete: ', data)
+		// console.log('response from delete: ', data)
 		set((state) => {
 			state.getThemes()
 			return { loader: false }

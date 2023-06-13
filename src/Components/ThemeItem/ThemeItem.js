@@ -91,11 +91,11 @@ export default function ThemeItem() {
 	}, [])
 
 	const onCommentSelect = (e) => {
-		console.log(`onCommentSelect id - ${e.target['data-id']} checked - ${e.target.checked}`)
+		// console.log(`onCommentSelect id - ${e.target['data-id']} checked - ${e.target.checked}`)
 	}
 
 	const actionClick = (action, id) => {
-		console.log(`actionClick action - ${action} from id - ${id}`)
+		// console.log(`actionClick action - ${action} from id - ${id}`)
 	}
 
 	const changeDate = (value) => {
