@@ -157,9 +157,10 @@ function ContentManager(props) {
 			)
 		}
 		case '3': {
-			const allLineKeys = Object.keys(chartDataByTab[0]).filter(
-				(item) => item !== 'rounded_timestamp',
-			)
+			let allLineKeys = []
+			if (chartDataByTab[0]) {
+				allLineKeys = Object.keys(chartDataByTab[0]).filter((item) => item !== 'rounded_timestamp')
+			}
 			const formattedPieChartData = pieChartDataByTab
 				.map((item) => {
 					return {

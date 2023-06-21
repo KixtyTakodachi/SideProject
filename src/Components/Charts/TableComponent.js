@@ -25,6 +25,7 @@ function TableComponent(props) {
 			rowKey={(record) => record[columnsKeys[0]] + record[columnsKeys[1]]}
 			dataSource={tableData}
 			columns={columns}
+			scroll={{ x: 'max-content' }}
 		/>
 	)
 }

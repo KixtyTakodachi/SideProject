@@ -30,3 +30,14 @@ export const left_bar_dictionary = {
 		12: 'Жерлер',
 	},
 }
+
+export const tabs_fields_dictionary = {
+	0: 'summary',
+	1: 'raw_data',
+	2: ['tonality', 'tonality_total_day'],
+	3: ['tags_top_10', 'tags_total_day'],
+	4: ['hub_top_10', 'hub_total'],
+	5: ['authors', 'authors_by_age_stat'],
+	7: ['countries', 'cities', 'regions'],
+	12: 'places',
+}

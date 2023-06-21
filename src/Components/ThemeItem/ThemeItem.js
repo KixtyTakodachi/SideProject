@@ -40,7 +40,6 @@ import CreateThemeModal from '../CreateThemeModal/CreateThemeModal'
 export default function ThemeItem() {
 	const language = useStore((state) => state.language)
 	const comments_source = useStore((state) => state.comment_data)
-	const changeMonthYear = useStore((state) => state.changeMonthYear)
 	const active_theme = useStore((state) => state.active_theme)
 	const changeActiveTheme = useStore((state) => state.changeActiveTheme)
 	const getThemeData = useStore((state) => state.getThemeData)
@@ -48,8 +47,9 @@ export default function ThemeItem() {
 	const leftBarTab = useStore((state) => state.leftBarTab)
 	const toggleFavourite = useStore((state) => state.toggleFavorite)
 	const clearThemeData = useStore((state) => state.clearThemeData)
+	const active_date = useStore((state) => state.active_date)
+	const changeDate = useStore((state) => state.changeDate)
 
-	const [currentDate, setCurrentDate] = useState(dayjs(new Date('2023-05-09')))
 	const [content_comments, setContentComments] = useState(comments_source)
 	const [chartData, setChartData] = useState([])
 	const [pieChartData, setPieChartData] = useState([])
@@ -59,11 +59,6 @@ export default function ThemeItem() {
 	useEffect(() => {
 		setContentComments(comments_source)
 	}, [JSON.stringify(comments_source)])
-	useEffect(
-		() => () =>
-			changeMonthYear(`${dayjs(new Date()).get('month') + 1}_${dayjs(new Date()).get('year')}`),
-		[],
-	)
 
 	useEffect(() => {
 		return () => {
@@ -72,8 +67,8 @@ export default function ThemeItem() {
 	}, [])
 
 	useEffect(() => {
-		getThemeData(active_theme, currentDate.format(date_format))
-	}, [active_theme, currentDate.format(date_format)])
+		getThemeData(active_theme, active_date ? active_date : '')
+	}, [active_theme, active_date])
 	// useEffect(() => {
 	// 	if(Object.keys(themeData).length > 0){
 	// 		const chartData
@@ -96,10 +91,6 @@ export default function ThemeItem() {
 
 	const actionClick = (action, id) => {
 		// console.log(`actionClick action - ${action} from id - ${id}`)
-	}
-
-	const changeDate = (value) => {
-		setCurrentDate(value)
 	}
 
 	const disabledDate = (current) => {
@@ -133,7 +124,7 @@ export default function ThemeItem() {
 									disabledDate={disabledDate}
 									locale={language === 'ru' ? localeRu : localeKz}
 									// defaultValue={currentDateRange ? currentDateRange[0] : null}
-									value={currentDate}
+									value={dayjs(active_date)}
 									onChange={changeDate}
 									size="large"
 									className="themeItem_calendar"

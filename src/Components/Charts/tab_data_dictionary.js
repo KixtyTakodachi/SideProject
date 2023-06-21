@@ -5,13 +5,6 @@ export const tab_line_data_dictionary = {
 	3: 'tags_top_10',
 	4: 'hub_top_10',
 	5: 'authors',
-	6: '',
-	7: '',
-	8: '',
-	9: '',
-	10: '',
-	11: '',
-	12: '',
 }
 export const tab_pie_data_dictionary = {
 	2: 'tonality_total_day',

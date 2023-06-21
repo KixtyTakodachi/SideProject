@@ -11,6 +11,7 @@ import {
 	callUpdateTheme,
 } from '../api/api-themes'
 import loader from '../Components/Loader/Loader'
+import { date_format } from '../global_vars'
 
 export const useStore = create((set) => ({
 	language: 'ru',
@@ -90,9 +91,12 @@ export const useStore = create((set) => ({
 			// 		favourite: false,
 			// 	}
 			// })
+			const newUrl = window.location.origin + `/themes/${id}`
+			window.history.pushState({ path: newUrl }, '', newUrl)
 			return {
 				// comment_data: comments,
 				active_theme: id,
+				leftBarTab: '0',
 			}
 		}),
 	toggleFavorite: (id) =>
@@ -111,11 +115,11 @@ export const useStore = create((set) => ({
 				],
 			}
 		}),
-	active_month_year: `${dayjs(new Date()).get('month') + 1}_${dayjs(new Date()).get('year')}`,
-	changeMonthYear: (date) =>
+	active_date: null,
+	changeDate: (date) =>
 		set((state) => {
 			return {
-				active_month_year: date,
+				active_month_year: date.format(date_format),
 				// comment_data: state.comment_data.map((item, index) => {
 				// 	return {
 				// 		...item,
@@ -134,6 +138,7 @@ export const useStore = create((set) => ({
 		}),
 	getThemes: async () => {
 		const data = await callThemes()
+		console.log('Themes data:', data)
 		set({ dataSource: data })
 	},
 	themeData: {},
@@ -143,8 +148,8 @@ export const useStore = create((set) => ({
 		let data = await callThemeData(alias, date)
 		// console.log('State:: STOCK data', data)
 		data = mutateData(data)
-		// console.log('State:: MUTATED data', data)
-		set({ themeData: data, loader: false })
+		console.log('State:: MUTATED data', data)
+		set({ themeData: data, loader: false, active_date: data.dates[data.dates.length - 1] })
 	},
 
 	loader: false,
@@ -152,7 +157,7 @@ export const useStore = create((set) => ({
 		set({ loader: payload })
 	},
 	clearThemeData: () => {
-		set({ themeData: {}, leftBarTab: '0' })
+		set({ themeData: {}, leftBarTab: '0', active_date: null })
 	},
 	isModalVisible: false,
 	showCreateModal: () => {

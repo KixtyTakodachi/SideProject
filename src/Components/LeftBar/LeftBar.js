@@ -5,7 +5,7 @@ import { useStore } from '../../store/store'
 import { Select } from 'antd'
 import { themes_dict } from '../../dictionaries/themes_dict'
 import '../ThemeItem/ThemeItem.scss'
-import { left_bar_dictionary } from '../../dictionaries/left_bar_dictionary'
+import { left_bar_dictionary, tabs_fields_dictionary } from '../../dictionaries/left_bar_dictionary'
 import { icons_dict } from '../../dictionaries/icons_dict'
 
 function LeftBar(props) {
@@ -16,14 +16,45 @@ function LeftBar(props) {
 	const active_theme = useStore((state) => state.active_theme)
 	const language = useStore((state) => state.language)
 	const getThemes = useStore((state) => state.getThemes)
+	const themeData = useStore((state) => state.themeData)
 
-	const left_bar_menu = Object.entries(left_bar_dictionary[language]).map(([key, value]) => {
-		return {
-			id: key,
-			name: value,
-			icon: icons_dict[key],
+	const [leftBarMenu, changeLeftBarMenu] = useState(
+		Object.entries(left_bar_dictionary[language]).map(([key, value]) => {
+			return {
+				id: key,
+				name: value,
+				icon: icons_dict[key],
+			}
+		}),
+	)
+
+	useEffect(() => {
+		if (themeData) {
+			let filteredMenu = Object.entries(left_bar_dictionary[language])
+				.map(([key, value]) => {
+					if (Array.isArray(tabs_fields_dictionary[key])) {
+						if (tabs_fields_dictionary[key].some((item) => themeData[item]?.length > 0)) {
+							return {
+								id: key,
+								name: value,
+								icon: icons_dict[key],
+							}
+						}
+					} else {
+						if (themeData[tabs_fields_dictionary[key]]?.length > 0) {
+							return {
+								id: key,
+								name: value,
+								icon: icons_dict[key],
+							}
+						}
+					}
+				})
+				.filter((item) => item)
+			changeLeftBarMenu(filteredMenu)
+			console.log('filteredMenu', filteredMenu)
 		}
-	})
+	}, [themeData])
 
 	// console.log(dataSource)
 	const select_options = dataSource.map((item) => {
@@ -67,7 +98,7 @@ function LeftBar(props) {
 				options={select_options}
 			/>
 			<ul className="themeItem_left_bar_menu">
-				{left_bar_menu.map((item) => {
+				{leftBarMenu.map((item) => {
 					return (
 						<li
 							key={item.id}

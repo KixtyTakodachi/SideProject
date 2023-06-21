@@ -13,7 +13,6 @@ import Loader from '../Loader/Loader'
 import EditThemeModal from '../EditThemeModal/EditThemeModal'
 
 export default function Themes() {
-	const active_month_year = useStore((state) => state.active_month_year)
 	const dataSource = useStore((state) => state.dataSource)
 	const language = useStore((state) => state.language)
 	const changeActiveTheme = useStore((state) => state.changeActiveTheme)
