@@ -138,7 +138,7 @@ export const useStore = create((set) => ({
 		}),
 	getThemes: async () => {
 		const data = await callThemes()
-		console.log('Themes data:', data)
+		// console.log('Themes data:', data)
 		set({ dataSource: data })
 	},
 	themeData: {},
@@ -148,7 +148,7 @@ export const useStore = create((set) => ({
 		let data = await callThemeData(alias, date)
 		// console.log('State:: STOCK data', data)
 		data = mutateData(data)
-		console.log('State:: MUTATED data', data)
+		// console.log('State:: MUTATED data', data)
 		set({ themeData: data, loader: false, active_date: data.dates[data.dates.length - 1] })
 	},
 
@@ -174,9 +174,9 @@ export const useStore = create((set) => ({
 			return { loader: false, isModalVisible: false }
 		})
 	},
-	sendUpdateTheme: async (theme, date, file) => {
+	sendUpdateTheme: async (theme, from_date, to_date, file) => {
 		set({ loader: true })
-		let data = await callUpdateTheme(theme, date, file)
+		let data = await callUpdateTheme(theme, from_date, to_date, file)
 		// console.log('response from update: ', data)
 		set({ loader: false })
 	},
@@ -188,6 +188,10 @@ export const useStore = create((set) => ({
 			state.getThemes()
 			return { loader: false }
 		})
+	},
+	helpModal: false,
+	changeHelpModal: (payload) => {
+		set({ helpModal: payload })
 	},
 }))
 

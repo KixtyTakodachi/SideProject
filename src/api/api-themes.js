@@ -66,11 +66,12 @@ export const callCreateTheme = async (title, alias) => {
 	return data
 }
 
-export const callUpdateTheme = async (theme, date, file) => {
+export const callUpdateTheme = async (theme, from_date, to_date, file) => {
 	const form = new FormData()
 	form.append('key', key)
 	form.append('theme', theme)
-	form.append('date', date)
+	form.append('from_date', from_date)
+	form.append('to_date', to_date || '')
 	form.append('file', file)
 
 	const call_url = url + 'upload-api/'

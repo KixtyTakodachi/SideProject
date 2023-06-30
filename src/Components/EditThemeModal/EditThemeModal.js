@@ -30,7 +30,12 @@ function EditThemeModal(props) {
 	const changeValue = (e) => {}
 
 	const onOk = (values) => {
-		sendUpdateTheme(alias, values.date.format(date_format), values.file.file)
+		sendUpdateTheme(
+			alias,
+			values.from_date.format(date_format),
+			values.to_date?.format(date_format),
+			values.file.file,
+		)
 	}
 
 	return (
@@ -53,12 +58,27 @@ function EditThemeModal(props) {
 				onFinish={onOk}
 				name="uploadFileForm"
 				id="uploadFileForm"
+				labelCol={{
+					span: 2,
+				}}
 			>
 				<Form.Item>
 					{/*<Input data-field={'title'} addonBefore={'Title'} onChange={changeValue} />*/}
 					<div className="form_theme_title">{`Тема: ${title}`}</div>
 				</Form.Item>
-				<Form.Item name={'date'}>
+				<Form.Item
+					label={'От'}
+					name={'from_date'}
+					rules={[
+						{
+							required: true,
+							message: 'Укажите дату',
+						},
+					]}
+				>
+					<DatePicker onChange={changeValue} locale={localeRu} />
+				</Form.Item>
+				<Form.Item label={'До'} name={'to_date'}>
 					<DatePicker onChange={changeValue} locale={localeRu} />
 				</Form.Item>
 				<Form.Item name={'file'} valuePropName={'file'}>

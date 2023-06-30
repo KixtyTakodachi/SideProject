@@ -7,6 +7,7 @@ import { useStore } from '../../store/store'
 import { Link } from 'react-router-dom'
 import { ru_kz_dict } from '../../dictionaries/ru_kz_dict'
 import { Popover } from 'antd'
+import Help from '../Help/Help'
 
 export default function Header() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -15,6 +16,7 @@ export default function Header() {
 	const page = useStore((state) => state.active_page)
 	const changeActivePage = useStore((state) => state.changePage)
 	const showCreateModal = useStore((state) => state.showCreateModal)
+	const changeHelpModal = useStore((state) => state.changeHelpModal)
 
 	const menuClick = (page) => {
 		changeActivePage(page)
@@ -63,17 +65,18 @@ export default function Header() {
 								{ru_kz_dict.temi[language]}
 							</li>
 						</Link>
-						<li
-							className={['header_menu_item', page === 'settings' ? 'active_menu_item' : ''].join(
-								' ',
-							)}
-							onClick={() => menuClick('settings')}
-						>
-							{ru_kz_dict.settings[language]}
-						</li>
+						{/*<li*/}
+						{/*	className={['header_menu_item', page === 'settings' ? 'active_menu_item' : ''].join(*/}
+						{/*		' ',*/}
+						{/*	)}*/}
+						{/*	onClick={() => menuClick('settings')}*/}
+						{/*>*/}
+						{/*	{ru_kz_dict.settings[language]}*/}
+						{/*</li>*/}
 						<li
 							className={['header_menu_item', page === 'help' ? 'active_menu_item' : ''].join(' ')}
-							onClick={() => menuClick('help')}
+							// onClick={() => menuClick('help')}
+							onClick={() => changeHelpModal(true)}
 						>
 							{ru_kz_dict.help[language]}
 						</li>
@@ -111,6 +114,7 @@ export default function Header() {
 						</div>
 					</div>
 				</div>
+				<Help />
 			</div>
 		</div>
 	)

@@ -52,7 +52,7 @@ function LeftBar(props) {
 				})
 				.filter((item) => item)
 			changeLeftBarMenu(filteredMenu)
-			console.log('filteredMenu', filteredMenu)
+			// console.log('filteredMenu', filteredMenu)
 		}
 	}, [themeData])
 
