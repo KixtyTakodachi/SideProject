@@ -76,7 +76,7 @@ export const callUpdateTheme = async (theme, from_date, to_date, file) => {
 
 	const call_url = url + 'upload-api/'
 
-	let data = []
+	let data = undefined
 
 	await axios({
 		method: 'POST',

@@ -97,6 +97,7 @@ export const useStore = create((set) => ({
 				// comment_data: comments,
 				active_theme: id,
 				leftBarTab: '0',
+				active_date: null,
 			}
 		}),
 	toggleFavorite: (id) =>
@@ -119,7 +120,7 @@ export const useStore = create((set) => ({
 	changeDate: (date) =>
 		set((state) => {
 			return {
-				active_month_year: date.format(date_format),
+				active_date: date.format(date_format),
 				// comment_data: state.comment_data.map((item, index) => {
 				// 	return {
 				// 		...item,
@@ -149,7 +150,13 @@ export const useStore = create((set) => ({
 		// console.log('State:: STOCK data', data)
 		data = mutateData(data)
 		// console.log('State:: MUTATED data', data)
-		set({ themeData: data, loader: false, active_date: data.dates[data.dates.length - 1] })
+		set(state => {
+			return { 
+				themeData: data, 
+				loader: false, 
+				active_date: state.active_date ? state.active_date : data.dates[data.dates.length - 1] 
+			}
+		})
 	},
 
 	loader: false,
@@ -179,6 +186,12 @@ export const useStore = create((set) => ({
 		let data = await callUpdateTheme(theme, from_date, to_date, file)
 		// console.log('response from update: ', data)
 		set({ loader: false })
+		if(data){
+			set({ updateRes: 'success' })
+		} else {
+			set({ updateRes: 'error' })
+		}
+	
 	},
 	sendDeleteTheme: async (alias) => {
 		set({ loader: true })
@@ -188,6 +201,10 @@ export const useStore = create((set) => ({
 			state.getThemes()
 			return { loader: false }
 		})
+	},
+	updateRes: '',
+	resetUpdateRes: () => {
+		set({ updateRes: '' })
 	},
 	helpModal: false,
 	changeHelpModal: (payload) => {
